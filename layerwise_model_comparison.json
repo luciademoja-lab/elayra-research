@@ -1,0 +1,1073 @@
+{
+  "results": [
+    {
+      "model_id": "gpt2",
+      "architecture": "gpt2",
+      "num_layers": 12,
+      "laplace_wins": 5,
+      "gaussian_wins": 7,
+      "laplace_pct": 41.666666666666664,
+      "layers": [
+        {
+          "layer": 0,
+          "ll_laplace": 1022804.0098696465,
+          "ll_gaussian": 610934.3657503616,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 1,
+          "ll_laplace": 1622557.6275524125,
+          "ll_gaussian": 1470584.5480087716,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 2,
+          "ll_laplace": 1468046.6727838858,
+          "ll_gaussian": 1322529.2085866763,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 3,
+          "ll_laplace": 1496890.7647811812,
+          "ll_gaussian": 1472337.2437815615,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 4,
+          "ll_laplace": 1426575.6393447635,
+          "ll_gaussian": 1384689.0237413584,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 5,
+          "ll_laplace": 1615319.494311092,
+          "ll_gaussian": 1649021.4649086932,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 6,
+          "ll_laplace": 1522753.0117933154,
+          "ll_gaussian": 1585314.6729545784,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 7,
+          "ll_laplace": 1488014.7540831675,
+          "ll_gaussian": 1553516.7544775154,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 8,
+          "ll_laplace": 1465552.9024646352,
+          "ll_gaussian": 1547350.313665857,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 9,
+          "ll_laplace": 1412911.60824729,
+          "ll_gaussian": 1488946.2547497742,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 10,
+          "ll_laplace": 1380496.9264311378,
+          "ll_gaussian": 1446555.821162787,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 11,
+          "ll_laplace": 1335668.7061339063,
+          "ll_gaussian": 1337259.419843891,
+          "better_fit": "Gaussian"
+        }
+      ]
+    },
+    {
+      "model_id": "gpt2-medium",
+      "architecture": "gpt2",
+      "num_layers": 15,
+      "laplace_wins": 6,
+      "gaussian_wins": 9,
+      "laplace_pct": 40.0,
+      "layers": [
+        {
+          "layer": 0,
+          "ll_laplace": 3017752.6928780046,
+          "ll_gaussian": 2122075.758521812,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 1,
+          "ll_laplace": 4074715.3503913684,
+          "ll_gaussian": 3918499.566468117,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 2,
+          "ll_laplace": 3724401.447120718,
+          "ll_gaussian": 3505847.0977035025,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 3,
+          "ll_laplace": 3446314.1216387483,
+          "ll_gaussian": 3312786.819925003,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 4,
+          "ll_laplace": 3371055.250311985,
+          "ll_gaussian": 3298178.5180566823,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 5,
+          "ll_laplace": 3355793.826753619,
+          "ll_gaussian": 3345501.064709054,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 6,
+          "ll_laplace": 3465009.0770280985,
+          "ll_gaussian": 3535885.525062479,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 7,
+          "ll_laplace": 3500740.708490945,
+          "ll_gaussian": 3608223.915560234,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 8,
+          "ll_laplace": 3432398.01418052,
+          "ll_gaussian": 3553715.7871294864,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 9,
+          "ll_laplace": 3505947.04235991,
+          "ll_gaussian": 3618367.6122853826,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 10,
+          "ll_laplace": 3431733.438364451,
+          "ll_gaussian": 3543191.9375732,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 11,
+          "ll_laplace": 3473461.786603371,
+          "ll_gaussian": 3609367.9741132376,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 12,
+          "ll_laplace": 3411414.7501953323,
+          "ll_gaussian": 3547540.77803637,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 13,
+          "ll_laplace": 3387097.720555384,
+          "ll_gaussian": 3517643.332925698,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 14,
+          "ll_laplace": 3447191.954842937,
+          "ll_gaussian": 3595426.4687449913,
+          "better_fit": "Gaussian"
+        }
+      ]
+    },
+    {
+      "model_id": "gpt2-large",
+      "architecture": "gpt2",
+      "num_layers": 15,
+      "laplace_wins": 9,
+      "gaussian_wins": 6,
+      "laplace_pct": 60.0,
+      "layers": [
+        {
+          "layer": 0,
+          "ll_laplace": 10355609.749542026,
+          "ll_gaussian": 10054348.793095712,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 1,
+          "ll_laplace": 10713603.462430833,
+          "ll_gaussian": 10497629.515681833,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 2,
+          "ll_laplace": 10925361.914077293,
+          "ll_gaussian": 10672992.916950423,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 3,
+          "ll_laplace": 10933717.281893568,
+          "ll_gaussian": 10656275.02764503,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 4,
+          "ll_laplace": 10771744.392868582,
+          "ll_gaussian": 10542758.39885304,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 5,
+          "ll_laplace": 10697981.955511035,
+          "ll_gaussian": 10524320.599097889,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 6,
+          "ll_laplace": 10547359.702794477,
+          "ll_gaussian": 10435767.272916341,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 7,
+          "ll_laplace": 10514874.457030764,
+          "ll_gaussian": 10420654.690340538,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 8,
+          "ll_laplace": 10558377.853035506,
+          "ll_gaussian": 10489701.037455011,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 9,
+          "ll_laplace": 10295557.316458108,
+          "ll_gaussian": 10297401.392269025,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 10,
+          "ll_laplace": 10330756.893930513,
+          "ll_gaussian": 10388754.665323429,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 11,
+          "ll_laplace": 10305035.925398868,
+          "ll_gaussian": 10431933.223046051,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 12,
+          "ll_laplace": 10267565.050785478,
+          "ll_gaussian": 10391796.128308566,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 13,
+          "ll_laplace": 10253277.091636289,
+          "ll_gaussian": 10388355.981380835,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 14,
+          "ll_laplace": 10195736.871933933,
+          "ll_gaussian": 10282560.630647624,
+          "better_fit": "Gaussian"
+        }
+      ]
+    },
+    {
+      "model_id": "bert-base-uncased",
+      "architecture": "bert",
+      "num_layers": 12,
+      "laplace_wins": 1,
+      "gaussian_wins": 11,
+      "laplace_pct": 8.333333333333334,
+      "layers": [
+        {
+          "layer": 0,
+          "ll_laplace": 4451264.860350716,
+          "ll_gaussian": 4467663.335359283,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 1,
+          "ll_laplace": 4469494.03990041,
+          "ll_gaussian": 4490601.816453165,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 2,
+          "ll_laplace": 4369236.596033833,
+          "ll_gaussian": 4333109.449372999,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 3,
+          "ll_laplace": 4384844.148710938,
+          "ll_gaussian": 4425591.590796318,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 4,
+          "ll_laplace": 4293155.623109856,
+          "ll_gaussian": 4363635.023576596,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 5,
+          "ll_laplace": 4242150.602073942,
+          "ll_gaussian": 4307520.242839268,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 6,
+          "ll_laplace": 4278138.910011385,
+          "ll_gaussian": 4344742.817934107,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 7,
+          "ll_laplace": 4284308.440476134,
+          "ll_gaussian": 4351114.886602851,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 8,
+          "ll_laplace": 4194268.0946946666,
+          "ll_gaussian": 4272404.914172737,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 9,
+          "ll_laplace": 4159637.738039236,
+          "ll_gaussian": 4233627.971176707,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 10,
+          "ll_laplace": 4146094.8708177763,
+          "ll_gaussian": 4213562.508869681,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 11,
+          "ll_laplace": 4062500.6799498233,
+          "ll_gaussian": 4153013.9443769096,
+          "better_fit": "Gaussian"
+        }
+      ]
+    },
+    {
+      "model_id": "bert-large-uncased",
+      "architecture": "bert",
+      "num_layers": 15,
+      "laplace_wins": 0,
+      "gaussian_wins": 15,
+      "laplace_pct": 0.0,
+      "layers": [
+        {
+          "layer": 0,
+          "ll_laplace": 8590392.4036685,
+          "ll_gaussian": 8668683.658021811,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 1,
+          "ll_laplace": 8784493.056723423,
+          "ll_gaussian": 8909612.957323141,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 2,
+          "ll_laplace": 8796464.316048348,
+          "ll_gaussian": 8901511.944349002,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 3,
+          "ll_laplace": 8519552.731617222,
+          "ll_gaussian": 8600534.172593439,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 4,
+          "ll_laplace": 8422982.1163612,
+          "ll_gaussian": 8490421.328363461,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 5,
+          "ll_laplace": 8364850.77365491,
+          "ll_gaussian": 8486934.05729391,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 6,
+          "ll_laplace": 8360814.971727714,
+          "ll_gaussian": 8490191.394701464,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 7,
+          "ll_laplace": 8382231.511560474,
+          "ll_gaussian": 8532486.394557651,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 8,
+          "ll_laplace": 8424867.242595123,
+          "ll_gaussian": 8555877.006070599,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 9,
+          "ll_laplace": 8441141.723522598,
+          "ll_gaussian": 8502293.652041538,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 10,
+          "ll_laplace": 8423010.5140386,
+          "ll_gaussian": 8472819.042162804,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 11,
+          "ll_laplace": 8143245.770039191,
+          "ll_gaussian": 8251074.023088642,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 12,
+          "ll_laplace": 8144094.175320522,
+          "ll_gaussian": 8256303.0810117535,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 13,
+          "ll_laplace": 8132451.651030445,
+          "ll_gaussian": 8252297.391700454,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 14,
+          "ll_laplace": 8129709.641118452,
+          "ll_gaussian": 8268385.080724122,
+          "better_fit": "Gaussian"
+        }
+      ]
+    },
+    {
+      "model_id": "distilbert-base-uncased",
+      "architecture": "distilbert",
+      "num_layers": 6,
+      "laplace_wins": 1,
+      "gaussian_wins": 5,
+      "laplace_pct": 16.666666666666668,
+      "layers": [
+        {
+          "layer": 0,
+          "ll_laplace": 4265719.408714496,
+          "ll_gaussian": 4304319.277835737,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 1,
+          "ll_laplace": 3904984.9640389397,
+          "ll_gaussian": 3880728.4320762698,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 2,
+          "ll_laplace": 3933481.6539287255,
+          "ll_gaussian": 4000497.168774344,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 3,
+          "ll_laplace": 3785260.9488685373,
+          "ll_gaussian": 3861120.6580990655,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 4,
+          "ll_laplace": 3757215.574589963,
+          "ll_gaussian": 3850747.120218415,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 5,
+          "ll_laplace": 3732757.3424115893,
+          "ll_gaussian": 3826620.063567251,
+          "better_fit": "Gaussian"
+        }
+      ]
+    },
+    {
+      "model_id": "roberta-base",
+      "architecture": "roberta",
+      "num_layers": 12,
+      "laplace_wins": 11,
+      "gaussian_wins": 1,
+      "laplace_pct": 91.66666666666667,
+      "layers": [
+        {
+          "layer": 0,
+          "ll_laplace": 2922473.478943007,
+          "ll_gaussian": 2715331.474421765,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 1,
+          "ll_laplace": 3412789.747168752,
+          "ll_gaussian": 3308937.7092980016,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 2,
+          "ll_laplace": 3479054.585054438,
+          "ll_gaussian": 3432437.1675344,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 3,
+          "ll_laplace": 3363057.9216854135,
+          "ll_gaussian": 3326203.8427498136,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 4,
+          "ll_laplace": 3338042.8653444257,
+          "ll_gaussian": 3290400.628350483,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 5,
+          "ll_laplace": 3363359.638831652,
+          "ll_gaussian": 3342454.5465473337,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 6,
+          "ll_laplace": 3369717.2137635564,
+          "ll_gaussian": 3354874.737201118,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 7,
+          "ll_laplace": 3429646.4536724426,
+          "ll_gaussian": 3338888.310590051,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 8,
+          "ll_laplace": 3500154.595529856,
+          "ll_gaussian": 3479888.616484098,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 9,
+          "ll_laplace": 3570508.7854353506,
+          "ll_gaussian": 3550962.83972408,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 10,
+          "ll_laplace": 3546088.932115279,
+          "ll_gaussian": 3542905.000331621,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 11,
+          "ll_laplace": 3410855.4274193747,
+          "ll_gaussian": 3426773.810660532,
+          "better_fit": "Gaussian"
+        }
+      ]
+    },
+    {
+      "model_id": "roberta-large",
+      "architecture": "roberta",
+      "num_layers": 15,
+      "laplace_wins": 4,
+      "gaussian_wins": 11,
+      "laplace_pct": 26.666666666666668,
+      "layers": [
+        {
+          "layer": 0,
+          "ll_laplace": 8222804.262492117,
+          "ll_gaussian": 8319628.321069354,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 1,
+          "ll_laplace": 7427920.16682644,
+          "ll_gaussian": 7325194.915710733,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 2,
+          "ll_laplace": 7765174.317380551,
+          "ll_gaussian": 7539096.141316818,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 3,
+          "ll_laplace": 7645040.511660658,
+          "ll_gaussian": 7614232.3994718855,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 4,
+          "ll_laplace": 7764307.440365392,
+          "ll_gaussian": 7838838.49000566,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 5,
+          "ll_laplace": 7608758.106240464,
+          "ll_gaussian": 7711479.660776686,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 6,
+          "ll_laplace": 7490110.1640413,
+          "ll_gaussian": 7539490.346088052,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 7,
+          "ll_laplace": 7387669.91525967,
+          "ll_gaussian": 7462271.670753845,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 8,
+          "ll_laplace": 7448117.454328606,
+          "ll_gaussian": 7483181.507300837,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 9,
+          "ll_laplace": 7357455.147440272,
+          "ll_gaussian": 7426565.215169434,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 10,
+          "ll_laplace": 7247403.398097485,
+          "ll_gaussian": 7221280.065665279,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 11,
+          "ll_laplace": 7282131.735228951,
+          "ll_gaussian": 7325734.3909587525,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 12,
+          "ll_laplace": 7353949.444390135,
+          "ll_gaussian": 7416243.66786251,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 13,
+          "ll_laplace": 7189281.947324483,
+          "ll_gaussian": 7268656.677627122,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 14,
+          "ll_laplace": 7142453.911133231,
+          "ll_gaussian": 7236857.612487555,
+          "better_fit": "Gaussian"
+        }
+      ]
+    },
+    {
+      "model_id": "distilroberta-base",
+      "architecture": "roberta",
+      "num_layers": 6,
+      "laplace_wins": 5,
+      "gaussian_wins": 1,
+      "laplace_pct": 83.33333333333333,
+      "layers": [
+        {
+          "layer": 0,
+          "ll_laplace": 2854002.0185028384,
+          "ll_gaussian": 2651914.483670703,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 1,
+          "ll_laplace": 3344433.132124937,
+          "ll_gaussian": 3303177.4527152414,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 2,
+          "ll_laplace": 3227561.1976912133,
+          "ll_gaussian": 3197243.0779307643,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 3,
+          "ll_laplace": 3287964.6353770867,
+          "ll_gaussian": 3227143.3679502476,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 4,
+          "ll_laplace": 3345438.6810989897,
+          "ll_gaussian": 3341922.918047489,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 5,
+          "ll_laplace": 3289820.4094572966,
+          "ll_gaussian": 3329461.3018560642,
+          "better_fit": "Gaussian"
+        }
+      ]
+    },
+    {
+      "model_id": "albert-base-v2",
+      "architecture": "albert",
+      "num_layers": 1,
+      "laplace_wins": 1,
+      "gaussian_wins": 0,
+      "laplace_pct": 100.0,
+      "layers": [
+        {
+          "layer": 0,
+          "ll_laplace": 3872909.72464305,
+          "ll_gaussian": 3866937.2609310667,
+          "better_fit": "Laplace"
+        }
+      ]
+    },
+    {
+      "model_id": "google/electra-small-discriminator",
+      "architecture": "electra",
+      "num_layers": 12,
+      "laplace_wins": 7,
+      "gaussian_wins": 5,
+      "laplace_pct": 58.333333333333336,
+      "layers": [
+        {
+          "layer": 0,
+          "ll_laplace": 374230.80775066203,
+          "ll_gaussian": 366988.8222099645,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 1,
+          "ll_laplace": 351589.37810374727,
+          "ll_gaussian": 343750.6329465942,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 2,
+          "ll_laplace": 358225.910963162,
+          "ll_gaussian": 358263.064508079,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 3,
+          "ll_laplace": 363460.7028715936,
+          "ll_gaussian": 360748.3310081699,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 4,
+          "ll_laplace": 396325.5839704606,
+          "ll_gaussian": 387667.8459334557,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 5,
+          "ll_laplace": 374774.30867338856,
+          "ll_gaussian": 372854.2255350065,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 6,
+          "ll_laplace": 377693.55919202924,
+          "ll_gaussian": 378579.2806672272,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 7,
+          "ll_laplace": 354807.33237069845,
+          "ll_gaussian": 360350.2694890683,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 8,
+          "ll_laplace": 356906.9420357114,
+          "ll_gaussian": 362497.5839638868,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 9,
+          "ll_laplace": 374889.88206013455,
+          "ll_gaussian": 377631.1548441575,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 10,
+          "ll_laplace": 354904.46242940106,
+          "ll_gaussian": 354084.55597739544,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 11,
+          "ll_laplace": 314328.83901011973,
+          "ll_gaussian": 313926.9012549608,
+          "better_fit": "Laplace"
+        }
+      ]
+    },
+    {
+      "model_id": "facebook/bart-base",
+      "architecture": "bart",
+      "num_layers": 6,
+      "laplace_wins": 6,
+      "gaussian_wins": 0,
+      "laplace_pct": 100.0,
+      "layers": [
+        {
+          "layer": 0,
+          "ll_laplace": 9174559.131758533,
+          "ll_gaussian": 8957196.117205508,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 1,
+          "ll_laplace": 9116533.593414603,
+          "ll_gaussian": 9016791.80361251,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 2,
+          "ll_laplace": 8932351.279777506,
+          "ll_gaussian": 8898941.692192368,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 3,
+          "ll_laplace": 9002286.551512344,
+          "ll_gaussian": 8970188.646080159,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 4,
+          "ll_laplace": 9016906.057504676,
+          "ll_gaussian": 8986835.63427068,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 5,
+          "ll_laplace": 8908055.240749821,
+          "ll_gaussian": 8737247.349089265,
+          "better_fit": "Laplace"
+        }
+      ]
+    },
+    {
+      "model_id": "t5-small",
+      "architecture": "t5",
+      "num_layers": 6,
+      "laplace_wins": 6,
+      "gaussian_wins": 0,
+      "laplace_pct": 100.0,
+      "layers": [
+        {
+          "layer": 0,
+          "ll_laplace": -1801163.2472399722,
+          "ll_gaussian": -2229950.184529337,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 1,
+          "ll_laplace": -2145551.679627401,
+          "ll_gaussian": -2577635.381086201,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 2,
+          "ll_laplace": -2405695.5056942827,
+          "ll_gaussian": -2911119.827063881,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 3,
+          "ll_laplace": -2872330.3528367765,
+          "ll_gaussian": -3486622.2696510963,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 4,
+          "ll_laplace": -3505526.2747689793,
+          "ll_gaussian": -4329508.896728095,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 5,
+          "ll_laplace": -3645660.917618821,
+          "ll_gaussian": -4489967.620265461,
+          "better_fit": "Laplace"
+        }
+      ]
+    },
+    {
+      "model_id": "t5-base",
+      "architecture": "t5",
+      "num_layers": 12,
+      "laplace_wins": 12,
+      "gaussian_wins": 0,
+      "laplace_pct": 100.0,
+      "layers": [
+        {
+          "layer": 0,
+          "ll_laplace": -400619.8035320332,
+          "ll_gaussian": -1196905.4321692043,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 1,
+          "ll_laplace": -1249635.6770043818,
+          "ll_gaussian": -2010651.6616612454,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 2,
+          "ll_laplace": -1856201.5061784023,
+          "ll_gaussian": -2699504.9153288063,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 3,
+          "ll_laplace": -2070926.0877234493,
+          "ll_gaussian": -2922332.997391498,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 4,
+          "ll_laplace": -2669644.4459905815,
+          "ll_gaussian": -3644374.31073325,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 5,
+          "ll_laplace": -3373755.3212405923,
+          "ll_gaussian": -4447002.953381049,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 6,
+          "ll_laplace": -4053820.956372925,
+          "ll_gaussian": -5331854.03488434,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 7,
+          "ll_laplace": -4646685.404850467,
+          "ll_gaussian": -5985226.722451591,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 8,
+          "ll_laplace": -5175442.8777772,
+          "ll_gaussian": -6578355.726045851,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 9,
+          "ll_laplace": -5349294.691802186,
+          "ll_gaussian": -6682783.167195434,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 10,
+          "ll_laplace": -5703641.712627596,
+          "ll_gaussian": -7125406.841731537,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 11,
+          "ll_laplace": -6178020.919140666,
+          "ll_gaussian": -7827858.492218099,
+          "better_fit": "Laplace"
+        }
+      ]
+    },
+    {
+      "model_id": "google/mt5-small",
+      "architecture": "mt5",
+      "num_layers": 8,
+      "laplace_wins": 8,
+      "gaussian_wins": 0,
+      "laplace_pct": 100.0,
+      "layers": [
+        {
+          "layer": 0,
+          "ll_laplace": 236956.52004483415,
+          "ll_gaussian": -115822.48390229788,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 1,
+          "ll_laplace": -173763.45140440055,
+          "ll_gaussian": -652585.1407117256,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 2,
+          "ll_laplace": -644107.826928546,
+          "ll_gaussian": -1006230.2035298211,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 3,
+          "ll_laplace": -1225544.5979649567,
+          "ll_gaussian": -1633186.834180386,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 4,
+          "ll_laplace": -1543605.116431934,
+          "ll_gaussian": -1954001.1485857845,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 5,
+          "ll_laplace": -1941731.549215126,
+          "ll_gaussian": -2473440.139434771,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 6,
+          "ll_laplace": -2140855.4023837633,
+          "ll_gaussian": -2616398.0394998426,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 7,
+          "ll_laplace": -2321438.4579871707,
+          "ll_gaussian": -2821476.5862911684,
+          "better_fit": "Laplace"
+        }
+      ]
+    }
+  ],
+  "failures": []
+}

@@ -1,0 +1,155 @@
+{
+  "results": [
+    {
+      "model_id": "gpt2",
+      "architecture": "gpt2",
+      "num_params": 124439808,
+      "weight_mean": 3.0919622076908126e-05,
+      "weight_std": 0.02000773511826992,
+      "weight_range": 0.19613449275493622,
+      "weight_kurtosis": 0.005711824136495736,
+      "weight_skewness": -0.003063539787237752
+    },
+    {
+      "model_id": "gpt2-medium",
+      "architecture": "gpt2",
+      "num_params": 354823168,
+      "weight_mean": -3.5106224913761253e-06,
+      "weight_std": 0.02000097557902336,
+      "weight_range": 0.21004202961921692,
+      "weight_kurtosis": -0.004006599699538871,
+      "weight_skewness": 0.0017173377489094525
+    },
+    {
+      "model_id": "gpt2-large",
+      "architecture": "gpt2",
+      "num_params": 774030080,
+      "weight_mean": 4.377180175652029e-06,
+      "weight_std": 0.020002955570816994,
+      "weight_range": 0.20184284448623657,
+      "weight_kurtosis": 0.0004063833376628523,
+      "weight_skewness": -0.0016433433293515944
+    },
+    {
+      "model_id": "bert-base-uncased",
+      "architecture": "bert",
+      "num_params": 109482240,
+      "weight_mean": 2.52928498412075e-06,
+      "weight_std": 0.019975105300545692,
+      "weight_range": 0.18922479450702667,
+      "weight_kurtosis": 0.0032810519037527186,
+      "weight_skewness": 0.0029448173780903877
+    },
+    {
+      "model_id": "bert-large-uncased",
+      "architecture": "bert",
+      "num_params": 335141888,
+      "weight_mean": -5.630600981021416e-07,
+      "weight_std": 0.019997164607048035,
+      "weight_range": 0.19475048780441284,
+      "weight_kurtosis": -0.003524841286489444,
+      "weight_skewness": -0.0009913395801276156
+    },
+    {
+      "model_id": "distilbert-base-uncased",
+      "architecture": "distilbert",
+      "num_params": 66362880,
+      "weight_mean": -2.5359233404742554e-05,
+      "weight_std": 0.019963331520557404,
+      "weight_range": 0.18339663743972778,
+      "weight_kurtosis": 0.0020215884758374436,
+      "weight_skewness": -0.005109335077642143
+    },
+    {
+      "model_id": "roberta-base",
+      "architecture": "roberta",
+      "num_params": 124645632,
+      "weight_mean": 2.6590434572426602e-05,
+      "weight_std": 0.019987665116786957,
+      "weight_range": 0.18164315819740295,
+      "weight_kurtosis": 0.0005697529896462328,
+      "weight_skewness": -0.003572759510144612
+    },
+    {
+      "model_id": "roberta-large",
+      "architecture": "roberta",
+      "num_params": 355359744,
+      "weight_mean": -1.1621903468039818e-05,
+      "weight_std": 0.020010415464639664,
+      "weight_range": 0.19226671755313873,
+      "weight_kurtosis": 0.0027329267359252896,
+      "weight_skewness": -0.0003469926881659961
+    },
+    {
+      "model_id": "distilroberta-base",
+      "architecture": "roberta",
+      "num_params": 82118400,
+      "weight_mean": 2.4143570044543594e-05,
+      "weight_std": 0.01996155083179474,
+      "weight_range": 0.1802847981452942,
+      "weight_kurtosis": -0.017104853192789538,
+      "weight_skewness": 9.953919411091e-05
+    },
+    {
+      "model_id": "albert-base-v2",
+      "architecture": "albert",
+      "num_params": 11683584,
+      "weight_mean": -2.837944066413911e-06,
+      "weight_std": 0.020006459206342697,
+      "weight_range": 0.20533742010593414,
+      "weight_kurtosis": -0.0008280211676230387,
+      "weight_skewness": 0.008724277242898676
+    },
+    {
+      "model_id": "google/electra-small-discriminator",
+      "architecture": "electra",
+      "num_params": 13483008,
+      "weight_mean": 1.3625696738017723e-05,
+      "weight_std": 0.020032336935400963,
+      "weight_range": 0.1633731722831726,
+      "weight_kurtosis": 0.008828772057075884,
+      "weight_skewness": -0.01826323187758326
+    },
+    {
+      "model_id": "facebook/bart-base",
+      "architecture": "bart",
+      "num_params": 139420416,
+      "weight_mean": -2.5118271878454834e-05,
+      "weight_std": 0.01997690461575985,
+      "weight_range": 0.19056916236877441,
+      "weight_kurtosis": 0.0030271424051910856,
+      "weight_skewness": -0.006009171827285587
+    },
+    {
+      "model_id": "t5-small",
+      "architecture": "t5",
+      "num_params": 60506624,
+      "weight_mean": 7.065265890560113e-06,
+      "weight_std": 0.0055219014175236225,
+      "weight_range": 0.05238640308380127,
+      "weight_kurtosis": 0.010760699618640679,
+      "weight_skewness": 0.011872435554519792
+    },
+    {
+      "model_id": "t5-base",
+      "architecture": "t5",
+      "num_params": 222903552,
+      "weight_mean": -1.044407872541342e-05,
+      "weight_std": 0.004516644403338432,
+      "weight_range": 0.04322323948144913,
+      "weight_kurtosis": -0.007389999015896098,
+      "weight_skewness": -0.000972098980722168
+    },
+    {
+      "model_id": "google/mt5-small",
+      "architecture": "mt5",
+      "num_params": 172119424,
+      "weight_mean": 2.699923970794771e-05,
+      "weight_std": 0.005519377067685127,
+      "weight_range": 0.04970908537507057,
+      "weight_kurtosis": 0.008837513506256833,
+      "weight_skewness": 0.0013235058489107134
+    }
+  ],
+  "failures": []
+}
