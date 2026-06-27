@@ -2,3 +2,4 @@
 lib/
 share/
 bin/
+.gitignore
