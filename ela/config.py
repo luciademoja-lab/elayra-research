@@ -102,6 +102,19 @@ class ShuffleControlConfig:
     seed: int = 0
 
 
+@dataclass(frozen=True)
+class L1RegularizationConfig:
+    """Defaults for the L1 regularization hypothesis test (BERT-base)."""
+
+    model_id: str = "bert-base-uncased"
+    train_steps: int = 200
+    batch_size: int = 8
+    seq_len: int = 32
+    lr: float = 5e-5
+    l1_coeff: float = 1e-4
+    seed: int = 42
+
+
 # ---------------------------------------------------------------------------
 # Backwards-compatible module-level aliases
 # (scripts that previously used bare integers can migrate gradually)

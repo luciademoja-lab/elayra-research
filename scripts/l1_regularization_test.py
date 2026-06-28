@@ -18,7 +18,6 @@ Usage
 """
 from __future__ import annotations
 
-import argparse
 import gc
 import json
 import logging
@@ -36,14 +35,13 @@ from ela.analysis import (
     collect_attention_tensors,
     summarize_layerwise_fit,
 )
-from ela.config import CheckpointConfig
+from ela.config import L1RegularizationConfig
 from ela.utils import build_batch, flush_cuda, seed_everything
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 log = logging.getLogger(__name__)
 
-
-cfg = CheckpointConfig()
+cfg = L1RegularizationConfig()
 
 
 def _attention_l1_norm(model: torch.nn.Module) -> torch.Tensor:
@@ -71,7 +69,7 @@ def _run(label: str, use_l1: bool) -> dict:
         collect_attention_tensors(model, max_layers=MAX_LAYERS_PRIMARY)
     )
 
-    losses: List[float] = []
+    losses: list[float] = []
     for _ in tqdm(range(cfg.train_steps), desc=f"  {label}", leave=False):
         batch = {k: v.to(device) for k, v in build_batch(
             tokenizer, cfg.batch_size, cfg.seq_len, "masked").items()}
