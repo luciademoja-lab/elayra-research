@@ -19,6 +19,7 @@ Usage
 from __future__ import annotations
 
 import argparse
+import gc
 import json
 import logging
 import os
@@ -26,8 +27,8 @@ import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-import numpy as np
 import torch
+from tqdm import tqdm
 from transformers import AutoModelForMaskedLM, AutoTokenizer
 
 from ela.analysis import (
@@ -35,27 +36,14 @@ from ela.analysis import (
     collect_attention_tensors,
     summarize_layerwise_fit,
 )
+from ela.config import CheckpointConfig
+from ela.utils import build_batch, flush_cuda, seed_everything
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 log = logging.getLogger(__name__)
 
-MODEL_ID      = "bert-base-uncased"
-TRAIN_STEPS   = 200
-BATCH_SIZE    = 8
-SEQ_LEN       = 32
-LR            = 5e-5
-L1_COEFF      = 1e-4        # λ for the L1 penalty
-SEED          = 42
 
-
-def _build_batch(tokenizer, bs: int) -> dict:
-    vocab = tokenizer.vocab_size
-    ids = torch.randint(0, vocab, (bs, SEQ_LEN))
-    return {
-        "input_ids":      ids,
-        "attention_mask": torch.ones_like(ids),
-        "labels":         torch.randint(0, vocab, (bs, SEQ_LEN)),
-    }
+cfg = CheckpointConfig()
 
 
 def _attention_l1_norm(model: torch.nn.Module) -> torch.Tensor:
@@ -71,42 +59,48 @@ def _attention_l1_norm(model: torch.nn.Module) -> torch.Tensor:
 
 
 def _run(label: str, use_l1: bool) -> dict:
-    torch.manual_seed(SEED)
-    import random; random.seed(SEED)
-    np.random.seed(SEED)
+    seed_everything(cfg.seed)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
-    model = AutoModelForMaskedLM.from_pretrained(MODEL_ID).to(device)
+    tokenizer = AutoTokenizer.from_pretrained(cfg.model_id)
+    model = AutoModelForMaskedLM.from_pretrained(cfg.model_id).to(device)
     model.train()
-    optim = torch.optim.AdamW(model.parameters(), lr=LR)
+    optim = torch.optim.AdamW(model.parameters(), lr=cfg.lr)
 
     before = summarize_layerwise_fit(
         collect_attention_tensors(model, max_layers=MAX_LAYERS_PRIMARY)
     )
 
-    losses: list[float] = []
-    for _ in range(TRAIN_STEPS):
-        batch = {k: v.to(device) for k, v in _build_batch(tokenizer, BATCH_SIZE).items()}
+    losses: List[float] = []
+    for _ in tqdm(range(cfg.train_steps), desc=f"  {label}", leave=False):
+        batch = {k: v.to(device) for k, v in build_batch(
+            tokenizer, cfg.batch_size, cfg.seq_len, "masked").items()}
         out = model(**batch)
         ce_loss = out.loss
-        total_loss = ce_loss + (L1_COEFF * _attention_l1_norm(model) if use_l1 else 0.0)
+        total_loss = ce_loss + (cfg.l1_coeff * _attention_l1_norm(model) if use_l1 else 0.0)
         losses.append(float(ce_loss))
         total_loss.backward()
         optim.step()
         optim.zero_grad()
 
+        del batch
+
     after = summarize_layerwise_fit(
         collect_attention_tensors(model, max_layers=MAX_LAYERS_PRIMARY)
     )
+
+    del model, optim
+    gc.collect()
+    flush_cuda()
+
     return {
         "condition":   label,
         "use_l1":      use_l1,
         "before":      before,
         "after":       after,
         "final_ce_loss": losses[-1],
-        "seed":        SEED,
-        "l1_coeff":    L1_COEFF if use_l1 else 0.0,
+        "seed":        cfg.seed,
+        "l1_coeff":    cfg.l1_coeff if use_l1 else 0.0,
     }
 
 
@@ -114,20 +108,18 @@ def main() -> None:
     log.info("=" * 80)
     log.info("L1 REGULARISATION TEST  (ela-backed)")
     log.info("Model=%s  Steps=%d  Batch=%d  L1_coeff=%g",
-             MODEL_ID, TRAIN_STEPS, BATCH_SIZE, L1_COEFF)
+             cfg.model_id, cfg.train_steps, cfg.batch_size, cfg.l1_coeff)
     log.info("=" * 80)
 
     log.info("\n[Condition A] No L1 (control)…")
     ctrl = _run("no_l1", use_l1=False)
     log.info("  %.1f%% → %.1f%% Laplace  final_loss=%.4f",
-             ctrl["before"]["laplace_pct"],
-             ctrl["after"]["laplace_pct"], ctrl["final_ce_loss"])
+             ctrl["before"]["laplace_pct"], ctrl["after"]["laplace_pct"], ctrl["final_ce_loss"])
 
     log.info("\n[Condition B] With L1 (treatment)…")
     treat = _run("l1_penalty", use_l1=True)
     log.info("  %.1f%% → %.1f%% Laplace  final_loss=%.4f",
-             treat["before"]["laplace_pct"],
-             treat["after"]["laplace_pct"], treat["final_ce_loss"])
+             treat["before"]["laplace_pct"], treat["after"]["laplace_pct"], treat["final_ce_loss"])
 
     delta = (treat["after"]["laplace_pct"] - ctrl["after"]["laplace_pct"])
     log.info("\nΔ Laplace%% (treatment − control): %.2f", delta)

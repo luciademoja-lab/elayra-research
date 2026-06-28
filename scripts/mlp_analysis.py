@@ -31,8 +31,10 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 import numpy as np
 from scipy.stats import laplace, norm
+from tqdm import tqdm
 
-from ela.analysis import MODEL_IDS
+from ela.analysis import MODEL_IDS, _LAYER_PATTERN
+from ela.utils import flush_cuda
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 log = logging.getLogger(__name__)
@@ -43,8 +45,6 @@ MLP_TOKENS = [
     "c_fc", "c_proj", "wi", "wo", "dense",
     "full_layer_1", "full_layer_2",
 ]
-_LAYER_PAT = r"(?:^|\.)(h|layer|layers|block|albert_layers)\.(\d+)"
-_LAYER_RE  = __import__("re").compile(_LAYER_PAT)
 _EPS = 1e-10
 
 
@@ -59,7 +59,7 @@ def collect_mlp_tensors(model, max_layers=8):
         # Exclude anything that still looks like attention
         if any(t in low for t in ("attention", "attn", "query", "key", "value", "q_proj", "k_proj", "v_proj")):
             continue
-        m = _LAYER_RE.search(low)
+        m = _LAYER_PATTERN.search(low)
         if not m:
             continue
         groups.setdefault(int(m.group(2)), []).append(
@@ -88,6 +88,8 @@ def analyze_model_mlp(model_id: str, max_layers=8) -> dict | None:
     config = AutoConfig.from_pretrained(model_id, trust_remote_code=False)
     model  = AutoModel.from_pretrained(model_id, trust_remote_code=False)
     tensors = collect_mlp_tensors(model, max_layers=max_layers)
+    del model
+    flush_cuda()
     if not tensors:
         return None
     layers = []
@@ -112,7 +114,7 @@ def main() -> None:
     log.info("=" * 80)
 
     results, skipped, failures = [], [], []
-    for mid in MODEL_IDS:
+    for mid in tqdm(MODEL_IDS, desc="Models", unit="model"):
         try:
             log.info("[%s]", mid)
             r = analyze_model_mlp(mid)
@@ -122,8 +124,7 @@ def main() -> None:
                 continue
             results.append(r)
             log.info("  %d layers  Laplace %d/%d (%.1f%%)",
-                     r["num_layers"], r["laplace_wins"], r["num_layers"],
-                     r["laplace_pct"])
+                     r["num_layers"], r["laplace_wins"], r["num_layers"], r["laplace_pct"])
         except Exception as exc:
             failures.append({"model_id": mid, "error": str(exc)})
             log.info("  FAILED: %s", exc)

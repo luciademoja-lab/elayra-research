@@ -22,6 +22,8 @@ import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from ela.bootstrap import bootstrap_ci
+from ela.config import PipelineConfig
+from ela.utils import flush_cuda
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 log = logging.getLogger(__name__)
@@ -30,10 +32,11 @@ _DEFAULT_INPUT = os.path.join("results", "broader_analysis_results.json")
 
 
 def main() -> None:
+    cfg = PipelineConfig()
     ap = argparse.ArgumentParser()
     ap.add_argument("--input", default=_DEFAULT_INPUT, help="Path to broader_analysis_results.json")
-    ap.add_argument("--n", type=int, default=10_000, help="Bootstrap replicates")
-    ap.add_argument("--seed", type=int, default=42)
+    ap.add_argument("--n", type=int, default=cfg.bootstrap_n, help="Bootstrap replicates")
+    ap.add_argument("--seed", type=int, default=cfg.bootstrap_seed)
     args = ap.parse_args()
 
     with open(args.input, encoding="utf-8") as fh:

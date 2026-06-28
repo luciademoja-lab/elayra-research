@@ -14,6 +14,7 @@ Usage
 """
 from __future__ import annotations
 
+import gc
 import json
 import logging
 import os
@@ -22,6 +23,7 @@ import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 import torch
+from tqdm import tqdm
 from transformers import AutoModelForCausalLM, AutoModelForMaskedLM, AutoTokenizer
 
 from ela.analysis import (
@@ -29,33 +31,18 @@ from ela.analysis import (
     collect_attention_tensors,
     summarize_layerwise_fit,
 )
+from ela.config import ShuffleControlConfig
+from ela.utils import build_batch, flush_cuda, seed_everything
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 log = logging.getLogger(__name__)
 
-CONTROL_MODELS = [
-    ("gpt2",               "causal"),
-    ("bert-base-uncased",  "masked"),
-]
 
-TRAIN_STEPS = 10
-BATCH_SIZE  = 4
-SEQ_LEN     = 16
-
-
-def _build_batch(tokenizer, bs: int, model_type: str) -> dict:
-    vocab = tokenizer.vocab_size
-    ids = torch.randint(0, vocab, (bs, SEQ_LEN))
-    return {
-        "input_ids":      ids,
-        "attention_mask": torch.ones_like(ids),
-        "labels":         torch.randint(0, vocab, (bs, SEQ_LEN)),
-    }
+cfg = ShuffleControlConfig()
 
 
 def _run(model_id: str, model_type: str) -> dict:
-    torch.manual_seed(0)
-    import random; random.seed(0)
+    seed_everything(cfg.seed)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     tokenizer = AutoTokenizer.from_pretrained(model_id)
@@ -63,34 +50,42 @@ def _run(model_id: str, model_type: str) -> dict:
             else AutoModelForMaskedLM)
     model = ctor.from_pretrained(model_id).to(device)
     model.train()
-    optim = torch.optim.AdamW(model.parameters(), lr=5e-5)
+    optim = torch.optim.AdamW(model.parameters(), lr=cfg.lr)
 
     before = summarize_layerwise_fit(
         collect_attention_tensors(model, max_layers=MAX_LAYERS_PRIMARY)
     )
 
-    for _ in range(TRAIN_STEPS):
-        batch = {k: v.to(device) for k, v in _build_batch(tokenizer, BATCH_SIZE, model_type).items()}
+    for _ in tqdm(range(cfg.train_steps), desc=f"  {model_id}", leave=False):
+        batch = {k: v.to(device) for k, v in build_batch(
+            tokenizer, cfg.batch_size, cfg.seq_len, model_type).items()}
         out = model(**batch)
         loss = out.loss
         loss.backward()
         optim.step()
         optim.zero_grad()
 
+        del batch
+
     after = summarize_layerwise_fit(
         collect_attention_tensors(model, max_layers=MAX_LAYERS_PRIMARY)
     )
+
+    del model, optim
+    gc.collect()
+    flush_cuda()
+
     return {"model_id": model_id, "model_type": model_type,
             "before": before, "after": after}
 
 
 def main() -> None:
     log.info("=" * 80)
-    log.info("SHUFFLED-LABEL CONTROL  (ela-backed, %d steps)", TRAIN_STEPS)
+    log.info("SHUFFLED-LABEL CONTROL  (ela-backed, %d steps)", cfg.train_steps)
     log.info("=" * 80)
 
     results = []
-    for mid, mtype in CONTROL_MODELS:
+    for mid, mtype in tqdm(cfg.model_ids, desc="Models", unit="model"):
         try:
             log.info("[%s] (%s)", mid, mtype)
             r = _run(mid, mtype)

@@ -19,7 +19,10 @@ import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
+from tqdm import tqdm
+
 from ela.analysis import MODEL_IDS, MAX_LAYERS_DEPTH, analyze_model
+from ela.utils import flush_cuda
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 log = logging.getLogger(__name__)
@@ -33,7 +36,7 @@ def main() -> None:
     all_results = []
     failures = []
 
-    for mid in MODEL_IDS:
+    for mid in tqdm(MODEL_IDS, desc="Models", unit="model"):
         try:
             log.info("[%s] analysing first %d attention layers…", mid, MAX_LAYERS_DEPTH)
             r = analyze_model(mid, max_layers=MAX_LAYERS_DEPTH)
@@ -46,6 +49,8 @@ def main() -> None:
         except Exception as exc:
             failures.append({"model_id": mid, "error": str(exc)})
             log.info("  FAILED: %s", exc)
+
+    flush_cuda()
 
     out_path = os.path.join(os.path.dirname(__file__), "..", "results",
                             "layerwise_model_comparison.json")

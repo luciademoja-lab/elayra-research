@@ -10,6 +10,7 @@ import from here and are purely procedural wrappers.
 
 from __future__ import annotations
 
+import gc
 import logging
 import os
 import re
@@ -19,6 +20,8 @@ import numpy as np
 import torch
 from scipy.stats import kurtosis, laplace, norm
 from transformers import AutoConfig, AutoModel, AutoModelForCausalLM, AutoModelForMaskedLM
+
+from .utils import flush_cuda
 
 # ---------------------------------------------------------------------------
 # Model registry
@@ -226,15 +229,21 @@ def analyze_model(
     pretrained = AutoModel.from_pretrained(model_id, trust_remote_code=False)
     rand_init  = AutoModel.from_config(config)
 
-    pretrained_summary = summarize_layerwise_fit(
-        collect_attention_tensors(pretrained, max_layers=max_layers),
-        include_student_t=include_student_t,
-    )
-    random_summary = summarize_layerwise_fit(
-        collect_attention_tensors(rand_init, max_layers=max_layers),
-        include_student_t=include_student_t,
-    )
-    init_stats = summarize_initialization(rand_init)
+    try:
+        pretrained_summary = summarize_layerwise_fit(
+            collect_attention_tensors(pretrained, max_layers=max_layers),
+            include_student_t=include_student_t,
+        )
+        random_summary = summarize_layerwise_fit(
+            collect_attention_tensors(rand_init, max_layers=max_layers),
+            include_student_t=include_student_t,
+        )
+        init_stats = summarize_initialization(rand_init)
+    finally:
+        # Release GPU memory deterministically for 4 GB VRAM environments.
+        del pretrained, rand_init
+        gc.collect()
+        flush_cuda()
 
     return {
         "model_id":     model_id,
@@ -252,23 +261,53 @@ def analyze_model(
 def collect_head_tensors(model: torch.nn.Module) -> Dict[int, List[np.ndarray]]:
     """Return ``{layer_idx: [head_0_flat, head_1_flat, …]}``.
 
-    Only works for architectures that expose ``attention.head`` /
-    ``num_heads`` and store query/key/value as separate projections
-    (not concatenated, as in GPT-2's ``c_attn``).
+    Handles both separate ``q_proj`` / ``k_proj`` / ``v_proj`` projections
+    (BERT, RoBERTa, etc.) **and** fused projections such as GPT-2's
+    ``c_attn`` by performing an in-place matrix decomposition when the
+    architecture exposes ``num_attention_heads`` and ``hidden_size``.
     """
     result: Dict[int, List[np.ndarray]] = {}
     try:
         n_heads = model.config.num_attention_heads
+        hidden_size = getattr(model.config, "hidden_size", None)
     except AttributeError:
         logger.warning("Model does not expose num_attention_heads; head-level analysis unavailable")
         return result
 
     head_dim: int | None = None
+    fused_src = None  # (layer_idx, W_matrix, name) for fused case
+
     for name, param in model.named_parameters():
-        if "q_proj" in name and param.ndim == 2:
+        if param.ndim < 2 or not name.endswith(".weight"):
+            continue
+        lowered = name.lower()
+        # Separate projections
+        if "q_proj" in lowered:
             head_dim = param.shape[0] // n_heads
             break
+        # Fused projection (GPT-2 style c_attn)
+        if "c_attn" in lowered and hidden_size is not None:
+            if hidden_size % n_heads == 0:
+                head_dim = hidden_size // n_heads
+                match = _LAYER_PATTERN.search(lowered)
+                if match:
+                    fused_src = (int(match.group(2)), param.detach().cpu().numpy(), name)
+                    break
+            continue
+
     if head_dim is None:
+        return result
+
+    if fused_src is not None:
+        layer_idx, W, src_name = fused_src
+        # W shape is [3 * hidden_size, hidden_size]
+        for h in range(n_heads):
+            start, end = h * head_dim, (h + 1) * head_dim
+            q_vec = W[start:end, :].reshape(-1)
+            k_vec = W[hidden_size + start:hidden_size + end, :].reshape(-1)
+            v_vec = W[2 * hidden_size + start:2 * hidden_size + end, :].reshape(-1)
+            head_vec = np.concatenate([q_vec, k_vec, v_vec]).astype(np.float64)
+            result.setdefault(layer_idx, []).append(head_vec)
         return result
 
     for name, param in model.named_parameters():

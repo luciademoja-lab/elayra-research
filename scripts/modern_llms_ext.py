@@ -23,11 +23,14 @@ import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
+from tqdm import tqdm
+
 from ela.analysis import (
     MAX_LAYERS_PRIMARY,
     MAX_LAYERS_DEPTH,
     analyze_model,
 )
+from ela.utils import flush_cuda
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 log = logging.getLogger(__name__)
@@ -63,7 +66,7 @@ def main() -> None:
     log.info("=" * 80)
 
     results, failures = [], []
-    for mid in model_ids:
+    for mid in tqdm(model_ids, desc="Models", unit="model"):
         try:
             log.info("[%s]…", mid)
             r = analyze_model(mid, max_layers=max_layers)
@@ -77,6 +80,8 @@ def main() -> None:
         except Exception as exc:
             failures.append({"model_id": mid, "error": str(exc)})
             log.info("  FAILED (skipped): %s", exc)
+
+    flush_cuda()
 
     out = {"results": results, "failures": failures, "model_count": len(results)}
     out_path = os.path.join(os.path.dirname(__file__), "..", "results",

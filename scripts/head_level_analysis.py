@@ -9,8 +9,7 @@ layer concatenation) to reveal within-layer heterogeneity.
 For architectures with separate q_proj/k_proj/v_proj projections (BERT,
 RoBERTa, etc.) the head dimension is inferred from the weight shape and
 num_attention_heads config.  For GPT-2's fused c_attn the head dim is
-not directly separable without architectural inspection; those models are
-skipped with a warning.
+now decomposed natively (see ela.analysis.collect_head_tensors).
 
 Outputs
 -------
@@ -32,8 +31,10 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 import numpy as np
 from scipy.stats import laplace, norm
+from tqdm import tqdm
 
 from ela.analysis import MODEL_IDS, collect_head_tensors, collect_attention_tensors
+from ela.utils import flush_cuda
 from ela.viz import layer_heatmap
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
@@ -73,6 +74,8 @@ def analyze_model_headwise(model_id: str) -> dict:
                 "better_fit": _head_winner(t),
                 "head_details": [{"head": 0, "fit": _head_winner(t)}],
             })
+        del model
+        flush_cuda()
         return {"model_id": model_id, "architecture": config.model_type,
                 "layers": layers, "note": "fallback (whole-layer as single head)"}
 
@@ -91,6 +94,8 @@ def analyze_model_headwise(model_id: str) -> dict:
             "better_fit":  "Laplace" if wins > n / 2 else "Gaussian",
             "head_details": details,
         })
+    del model
+    flush_cuda()
     return {"model_id": model_id, "architecture": config.model_type, "layers": layers}
 
 
@@ -101,7 +106,7 @@ def main() -> None:
 
     all_results = []
     failures = []
-    for mid in MODEL_IDS:
+    for mid in tqdm(MODEL_IDS, desc="Models", unit="model"):
         try:
             log.info("[%s]", mid)
             r = analyze_model_headwise(mid)

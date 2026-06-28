@@ -1,6 +1,6 @@
 """
 scripts/control_long.py
-========================
+=======================
 Replacement for extended_control_longer_runs.py.
 
 Long-horizon (500-step) single-seed control with intermediate checkpoints.
@@ -16,6 +16,7 @@ Usage
 """
 from __future__ import annotations
 
+import gc
 import json
 import logging
 import os
@@ -25,6 +26,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 import numpy as np
 import torch
+from tqdm import tqdm
 from transformers import AutoModelForCausalLM, AutoModelForMaskedLM, AutoTokenizer
 
 from ela.analysis import (
@@ -32,37 +34,18 @@ from ela.analysis import (
     collect_attention_tensors,
     summarize_layerwise_fit,
 )
+from ela.config import ControlLongConfig
+from ela.utils import build_batch, flush_cuda, seed_everything
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 log = logging.getLogger(__name__)
 
-CONTROL_MODELS = [
-    ("gpt2",                        "causal"),
-    ("bert-base-uncased",           "masked"),
-    ("google/electra-small-discriminator", "masked"),
-]
 
-TRAIN_STEPS  = 500
-BATCH_SIZE   = 16
-SEQ_LEN      = 32
-SEED         = 42
-CHECKPOINTS  = [0, 50, 100, 250, 500]
-
-
-def _build_batch(tokenizer, bs: int) -> dict:
-    vocab = tokenizer.vocab_size
-    ids = torch.randint(0, vocab, (bs, SEQ_LEN))
-    return {
-        "input_ids":      ids,
-        "attention_mask": torch.ones_like(ids),
-        "labels":         torch.randint(0, vocab, (bs, SEQ_LEN)),
-    }
+cfg = ControlLongConfig()
 
 
 def _run(model_id: str, model_type: str, seed: int) -> dict:
-    torch.manual_seed(seed)
-    import random; random.seed(seed)
-    np.random.seed(seed)
+    seed_everything(seed)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     tokenizer = AutoTokenizer.from_pretrained(model_id)
@@ -72,11 +55,14 @@ def _run(model_id: str, model_type: str, seed: int) -> dict:
     model.train()
     optim = torch.optim.AdamW(model.parameters(), lr=5e-5)
 
-    loss_history: list[float] = []
+    loss_history: List[float] = []
     snaps: dict[int, dict] = {}
 
-    for step in range(1, TRAIN_STEPS + 1):
-        batch = {k: v.to(device) for k, v in _build_batch(tokenizer, BATCH_SIZE).items()}
+    for step in tqdm(range(1, cfg.train_steps + 1),
+                     desc=f"  {model_id} training",
+                     leave=False):
+        batch = {k: v.to(device) for k, v in build_batch(
+            tokenizer, cfg.batch_size, cfg.seq_len, model_type).items()}
         out = model(**batch)
         loss = out.loss
         loss_history.append(float(loss))
@@ -84,7 +70,8 @@ def _run(model_id: str, model_type: str, seed: int) -> dict:
         optim.step()
         optim.zero_grad()
 
-        if step in CHECKPOINTS:
+        del batch, out
+        if step in cfg.checkpoints:
             try:
                 snaps[step] = summarize_layerwise_fit(
                     collect_attention_tensors(model, max_layers=MAX_LAYERS_PRIMARY)
@@ -95,6 +82,11 @@ def _run(model_id: str, model_type: str, seed: int) -> dict:
     after = summarize_layerwise_fit(
         collect_attention_tensors(model, max_layers=MAX_LAYERS_PRIMARY)
     )
+
+    del model, optim
+    gc.collect()
+    flush_cuda()
+
     return {
         "seed": seed,
         "before": snaps.get(0, after),
@@ -107,18 +99,18 @@ def _run(model_id: str, model_type: str, seed: int) -> dict:
 def main() -> None:
     log.info("=" * 80)
     log.info("LONG-HORIZON CONTROL  (500 steps, ela-backed)")
-    log.info("Models=%d  Seed=%d", len(CONTROL_MODELS), SEED)
+    log.info("Models=%d  Seed=%d", len(cfg.model_ids), cfg.seed)
     log.info("=" * 80)
 
     all_out = []
-    for mid, mtype in CONTROL_MODELS:
+    for mid, mtype in tqdm(cfg.model_ids, desc="Models", unit="model"):
         try:
             log.info("\n[%s] (%s)", mid, mtype)
-            result = _run(mid, mtype, SEED)
+            result = _run(mid, mtype, cfg.seed)
             b = result["before"]["laplace_pct"]
             a = result["after"]["laplace_pct"]
             log.info("  Laplace%%: %.1f (step 0) → %.1f (step %d) | Δ %.2f",
-                     b, a, TRAIN_STEPS, a - b)
+                     b, a, cfg.train_steps, a - b)
             log.info("  Loss: %.3f → %.3f",
                      result["loss_history"][0], result["loss_history"][-1])
             for s in sorted(result["distributions_at_steps"]):

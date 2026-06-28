@@ -20,23 +20,25 @@ import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
+from tqdm import tqdm
+
 import numpy as np
 from scipy.stats import kurtosis, skew
 from transformers import AutoConfig, AutoModel
 
-from ela.analysis import MODEL_IDS
+from ela.analysis import MODEL_IDS, collect_attention_tensors, MAX_LAYERS_DEPTH
+from ela.utils import flush_cuda
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 log = logging.getLogger(__name__)
 
 
 def _init_stats(model_id: str) -> dict:
-    from ela.analysis import collect_attention_tensors, MAX_LAYERS_DEPTH
     config = AutoConfig.from_pretrained(model_id, trust_remote_code=False)
     model = AutoModel.from_config(config)  # random init
     tensors = collect_attention_tensors(model, max_layers=MAX_LAYERS_DEPTH)
     flat = np.concatenate(tensors).astype(np.float64).reshape(-1)
-    return {
+    result = {
         "model_id":         model_id,
         "architecture":     config.model_type,
         "num_params":       sum(p.numel() for p in model.parameters()),
@@ -46,6 +48,8 @@ def _init_stats(model_id: str) -> dict:
         "weight_kurtosis":  float(kurtosis(flat)),
         "weight_skewness":  float(skew(flat)),
     }
+    del model
+    return result
 
 
 def main() -> None:
@@ -54,7 +58,7 @@ def main() -> None:
     log.info("=" * 72)
 
     results, failures = [], []
-    for mid in MODEL_IDS:
+    for mid in tqdm(MODEL_IDS, desc="Models", unit="model"):
         try:
             log.info("[%s]", mid)
             s = _init_stats(mid)
@@ -64,6 +68,8 @@ def main() -> None:
         except Exception as exc:
             failures.append({"model_id": mid, "error": str(exc)})
             log.info("  FAILED: %s", exc)
+
+    flush_cuda()
 
     out_path = os.path.join(os.path.dirname(__file__), "..", "results",
                             "expanded_model_init_results.json")

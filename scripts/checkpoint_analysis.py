@@ -17,6 +17,7 @@ Usage
 from __future__ import annotations
 
 import argparse
+import gc
 import json
 import logging
 import os
@@ -24,8 +25,8 @@ import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-import numpy as np
 import torch
+from tqdm import tqdm
 from transformers import AutoConfig, GPT2LMHeadModel, GPT2Tokenizer
 
 from ela.analysis import (
@@ -33,59 +34,45 @@ from ela.analysis import (
     collect_attention_tensors,
     summarize_layerwise_fit,
 )
+from ela.config import CheckpointConfig
+from ela.utils import build_batch, flush_cuda, seed_everything
 from ela.viz import training_trajectory
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 log = logging.getLogger(__name__)
 
-MODEL_ID      = "gpt2"
-DEFAULT_STEPS = 500
-DEFAULT_CKPT  = 50
-BATCH_SIZE    = 8
-SEQ_LEN       = 32
-LR            = 5e-5
-SEED          = 42
 
-
-def _build_batch(tokenizer, bs: int) -> dict:
-    vocab = tokenizer.vocab_size
-    ids = torch.randint(0, vocab, (bs, SEQ_LEN))
-    return {
-        "input_ids":      ids,
-        "attention_mask": torch.ones_like(ids),
-        "labels":         ids.clone(),
-    }
+cfg = CheckpointConfig()
 
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--steps",      type=int, default=DEFAULT_STEPS)
-    ap.add_argument("--checkpoint-every", type=int, default=DEFAULT_CKPT)
+    ap.add_argument("--steps",      type=int, default=cfg.train_steps)
+    ap.add_argument("--checkpoint-every", type=int, default=cfg.checkpoint_every)
     ap.add_argument("--output-dir", default=os.path.join("results"))
     args = ap.parse_args()
 
-    torch.manual_seed(SEED)
-    import random; random.seed(SEED)
-    np.random.seed(SEED)
+    seed_everything(cfg.seed)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     log.info("Device: %s", device)
 
-    tokenizer = GPT2Tokenizer.from_pretrained(MODEL_ID)
-    config = AutoConfig.from_pretrained(MODEL_ID)
+    tokenizer = GPT2Tokenizer.from_pretrained(cfg.model_id)
+    config = AutoConfig.from_pretrained(cfg.model_id)
     model = GPT2LMHeadModel(config).to(device)
     model.train()
-    optim = torch.optim.AdamW(model.parameters(), lr=LR)
+    optim = torch.optim.AdamW(model.parameters(), lr=cfg.lr)
 
     before = summarize_layerwise_fit(
         collect_attention_tensors(model, max_layers=MAX_LAYERS_PRIMARY)
     )
     snapshots: dict[int, dict] = {0: before}
-    loss_history: list[float] = []
+    loss_history: List[float] = []
 
     log.info("Training for %d steps (checkpoint every %d)…", args.steps, args.checkpoint_every)
-    for step in range(1, args.steps + 1):
-        batch = {k: v.to(device) for k, v in _build_batch(tokenizer, BATCH_SIZE).items()}
+    for step in tqdm(range(1, args.steps + 1), desc="Training"):
+        batch = build_batch(tokenizer, cfg.batch_size, cfg.seq_len)
+        batch = {k: v.to(device) for k, v in batch.items()}
         out = model(**batch)
         loss = out.loss
         loss_history.append(float(loss))
@@ -93,6 +80,7 @@ def main() -> None:
         optim.step()
         optim.zero_grad()
 
+        del batch
         if step % args.checkpoint_every == 0:
             try:
                 snapshots[step] = summarize_layerwise_fit(
@@ -109,6 +97,10 @@ def main() -> None:
     )
     snapshots[args.steps] = after
 
+    del model, optim
+    gc.collect()
+    flush_cuda()
+
     step_labels  = sorted(snapshots)
     laplace_pcts = [snapshots[s]["laplace_pct"]   for s in step_labels]
     losses_at    = [loss_history[min(s - 1, len(loss_history) - 1)] for s in step_labels]
@@ -121,10 +113,10 @@ def main() -> None:
     log.info("Plot saved → %s", png_path)
 
     out = {
-        "model_id":            MODEL_ID,
+        "model_id":            cfg.model_id,
         "total_steps":         args.steps,
         "checkpoint_every":    args.checkpoint_every,
-        "seed":                SEED,
+        "seed":                cfg.seed,
         "snapshots":           {str(k): v for k, v in snapshots.items()},
         "laplace_pct_trajectory": dict(zip(map(str, step_labels), laplace_pcts)),
     }
