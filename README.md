@@ -1,5 +1,5 @@
 # Laplace Emerges from Architecture
-## Evidence for Initialization-Driven Weight Distribution Regimes in Transformer Attention Layers
+## Evidence for Emergent Weight Distribution Regimes in Trained Transformer Attention Layers
 
 > Full paper reproduced below. **Jump to § Reproducibility** for run targets and hardware notes.
 
@@ -7,7 +7,7 @@
 
 ## Abstract
 
-Standard transformer initialization schemes assume Gaussian weight distributions, yet it remains unknown whether this assumption holds after pretraining and whether distributional behavior is architecture-dependent. We present a systematic empirical analysis of attention projection weight distributions across **15 transformer variants** spanning GPT-2, BERT, RoBERTa, ALBERT, ELECTRA, BART, and T5 families. Using maximum-likelihood fitting with layer-wise log-likelihood comparison, we find that distributional regime — Laplace-like versus Gaussian-like — is strongly associated with architecture family and training objective, not with training data content. Causal language models (GPT-2 family) and encoder-decoder models (BART, T5) consistently exhibit Laplace-like weight distributions in their attention layers, while masked language models (BERT family) remain predominantly Gaussian. This divergence is robust across three randomized-label control experiments totaling 75 training runs, demonstrating that short-term gradient flow from task-relevant data is not the mechanism. Notably, RoBERTa — architecturally near-identical to BERT but trained with a more aggressive regime — achieves 100% Laplace prevalence versus BERT's 8.3%, implicating training intensity and masking strategy as potential modulators of distributional regime beyond architecture alone. We further observe that Laplace prevalence in GPT-style models concentrates in early layers and decreases with depth, revealing a layer-depth signature consistent with gradient flow asymmetry induced by causal masking. We connect these findings to the maximum-entropy characterization of the Laplace distribution under L1 constraints, propose that autoregressive training imposes implicit sparsity pressure equivalent to L1 regularization, and discuss concrete implications for pruning, quantization, uncertainty quantification, and fine-tuning strategies calibrated to architecture family.
+Standard transformer initialization schemes assume Gaussian weight distributions, yet it remains unknown whether this assumption holds after pretraining and whether distributional behavior is architecture-dependent. We present a systematic empirical analysis of attention projection weight distributions across **15 transformer variants** spanning GPT-2, BERT, RoBERTa, ALBERT, ELECTRA, BART, and T5 families. Using maximum-likelihood fitting with layer-wise log-likelihood comparison, we find that distributional regime — Laplace-like versus Gaussian-like — is strongly associated with architecture family and training objective, not with training data content. Causal language models (GPT-2 family) and encoder-decoder models (BART, T5) consistently exhibit Laplace-like weight distributions in their attention layers, while masked language models (BERT family) remain predominantly Gaussian. This divergence is robust across three randomized-label control experiments totaling 75 training runs, suggesting that short-term gradient flow from task-relevant data is unlikely to be the sole mechanism. Notably, RoBERTa — architecturally near-identical to BERT but trained with a more aggressive regime — achieves 100% Laplace prevalence versus BERT's 8.3%, implicating training intensity and masking strategy as potential modulators of distributional regime beyond architecture alone. We further observe that Laplace prevalence in GPT-style models concentrates in early layers and decreases with depth, revealing a layer-depth signature consistent with gradient flow asymmetry induced by causal masking. We connect these findings to the maximum-entropy characterization of the Laplace distribution under L1 constraints, propose that autoregressive training may impose implicit sparsity pressure functionally equivalent to L1 regularization, and discuss concrete implications for pruning, quantization, uncertainty quantification, and fine-tuning strategies calibrated to architecture family.
 
 ---
 
@@ -19,7 +19,7 @@ Whether trained weights remain approximately Gaussian — and whether any depart
 
 This paper addresses that gap. We ask three questions. First, do trained transformer attention weights deviate from Gaussianity in a consistent, family-specific way? Second, is any such deviation caused by training data content or by architecture and training objective? Third, do initialization statistics predict the distributional regime reached after training?
 
-Our contributions are as follows. We provide the first systematic layer-wise comparison of Laplace versus Gaussian fit quality across 15 transformer variants spanning seven architecture families, using both pretrained and randomly initialized variants for each model. We demonstrate, through three distinct randomized-label control experiments, that the distributional pattern is architecture-determined and robust to short-term gradient flow from arbitrary data. We identify a layer-depth signature in GPT-style models where Laplace prevalence is concentrated in early layers and decreases monotonically with depth, a pattern consistent with gradient flow asymmetry induced by causal masking. We show that the BERT/RoBERTa pair constitutes a natural experiment isolating training regime effects from architecture, with RoBERTa's more aggressive training producing a dramatic shift toward Laplace despite near-identical architectural structure. Finally, we connect these empirical observations to the maximum-entropy theory of the Laplace distribution and propose a mechanistic hypothesis relating autoregressive training to implicit L1-equivalent sparsity pressure, with falsifiable predictions for future work. We discuss implications for pruning, quantization, uncertainty quantification, fine-tuning, and the design of architecture-aware initialization schemes.
+Our contributions are as follows. We provide the first systematic layer-wise comparison of Laplace versus Gaussian fit quality across 15 transformer variants spanning seven architecture families, using both pretrained and randomly initialized variants for each model. Our empirical findings strongly point to an architectural boundary: the distributional pattern appears to be architecture-determined and largely robust to short-term gradient flow from arbitrary data. We identify a layer-depth signature in GPT-style models where Laplace prevalence is concentrated in early layers and decreases monotonically with depth, a pattern consistent with gradient flow asymmetry induced by causal masking. We show that the BERT/RoBERTa pair constitutes a natural experiment isolating training regime effects from architecture, with RoBERTa's more aggressive training producing a dramatic shift toward Laplace despite near-identical architectural structure. Finally, we connect these empirical observations to the maximum-entropy theory of the Laplace distribution and propose a mechanistic hypothesis relating autoregressive training to implicit L1-equivalent sparsity pressure, with falsifiable predictions for future work. We discuss implications for pruning, quantization, uncertainty quantification, fine-tuning, and the design of architecture-aware initialization schemes.
 
 The remainder of the paper is organized as follows. Section 2 reviews related work. Section 3 describes methods. Section 4 presents results. Section 5 provides discussion and mechanistic hypotheses. Section 6 proposes a theoretical framework. Section 7 describes implications for practice. Section 8 outlines future work. Section 9 concludes.
 
@@ -61,15 +61,15 @@ We analyze 15 transformer variants: GPT-2, GPT-2 Medium, and GPT-2 Large (causal
 
 ### 3.2 Weight Extraction Protocol
 
-For each model, we extract attention projection weights using a unified name-matching protocol that identifies parameters containing attention-related terms (attention, attn, c_attn, q_proj, k_proj, v_proj, query, key, value, in_proj_weight, q_lin, k_lin, v_lin) and associates them with transformer layer indices via a regular expression matching standard depth indicators (h.N, layer.N, layers.N, block.N, albert_layers.N). Multiple attention projection matrices within a single layer (e.g., separate query, key, and value projections) are concatenated into a single per-layer weight vector before fitting.
+For each model, we extract attention projection weights using a unified name-matching protocol that identifies parameters containing attention-related terms (attention, attn, c_attn, q_proj, k_proj, v_proj, query, key, value, in_proj_weight, q_lin, k_lin, v_lin) and associates them with transformer layer indices via a regular expression matching standard depth indicators (h.N, layer.N, layers.N, block.N, albert_layers.N). Multiple attention projection matrices within a single layer (e.g., separate query, key, and value projections) are concatenated into a single per-layer weight vector before fitting. Architectures that fuse Q/K/V projections into a single matrix — notably GPT-2's `c_attn` — are handled by an in-place matrix decomposition that isolates per-head contributions, removing the architectural fallback limitations present in prior head-level analyses.
 
 In the primary analysis (`scripts/run_pipeline.py`), we analyze the first 8 layers per model to enable cross-model comparison at a fixed depth. In the extended layer-depth analysis (`scripts/run_layerwise.py`), we analyze up to 15 layers per model (or all available layers if fewer than 15), reporting results at each depth position. All weight tensors are flattened before fitting.
 
 ### 3.3 Distribution Fitting and Layer Classification
 
-For each per-layer weight vector, we fit Laplace, Gaussian, and (optionally) Student-t distributions using maximum likelihood estimation via scipy.stats. We compute the total log-likelihood of the observed weights under each fitted distribution and classify each layer based on which distribution achieves the highest log-likelihood. We report the absolute log-likelihood values for each layer, enabling assessment of the margin of preference.
+For each per-layer weight vector, we fit Laplace, Gaussian, and Student-t distributions using maximum-likelihood estimation via `scipy.stats`. We compute the total log-likelihood of the observed weights under each fitted distribution and classify each layer based on which distribution achieves the highest log-likelihood. We report the absolute log-likelihood values for each layer, enabling assessment of the margin of preference. In addition to the likelihood comparison, we apply the Kolmogorov-Smirnov (KS) two-sample test as a formal goodness-of-fit validation for each distributional candidate.
 
-Both distributions have two free parameters (location and scale), so the log-likelihood comparison does not require an information criterion correction for model complexity. The Student-t is included in this implementation (previously acknowledged as a priority for future work).
+Both Laplace and Gaussian have two free parameters (location and scale), so the log-likelihood comparison does not require an information-criterion correction for model complexity. The Student-t distribution adds a degrees-of-freedom parameter, providing greater flexibility for heavy-tailed tensors. The KS test provides an independent, distribution-free check on fit quality, moving beyond subjective log-likelihood wins toward statistically grounded model selection.
 
 ### 3.4 Randomized-Label Control Experiments
 
@@ -155,7 +155,7 @@ Our results challenge the default assumption that trained transformer weights ar
 
 The Laplace distribution has a well-known characterization in information-theoretic terms: it is the maximum-entropy distribution under the constraint that the expected absolute deviation E[|x − μ|] is finite and fixed. This is the L1 analog of the classical result that the Gaussian is the maximum-entropy distribution under a fixed variance constraint (an L2 constraint).
 
-We propose that autoregressive training with causal masking imposes exactly such an implicit L1-equivalent constraint through the following mechanism. In a causally masked attention layer, each query position can only attend to preceding key positions. This directional constraint creates a gradient landscape where specific attention patterns are systematically reinforced (those that improve prediction of the next token) while others are systematically suppressed (those attending to future tokens, which receive zero gradient). The cumulative effect of this selective reinforcement is functionally equivalent to sparsity pressure: many attention weights are pushed toward zero because they connect query-key pairs that consistently fail to contribute to next-token prediction, while a subset of weights grows large because it encodes predictive patterns.
+We propose that autoregressive training with causal masking may impose such an implicit L1-equivalent constraint through the following mechanism. In a causally masked attention layer, each query position can only attend to preceding key positions. This directional constraint creates a gradient landscape where specific attention patterns are systematically reinforced (those that improve prediction of the next token) while others are systematically suppressed (those attending to future tokens, which receive zero gradient). The cumulative effect of this selective reinforcement is functionally equivalent to sparsity pressure: many attention weights are pushed toward zero because they connect query-key pairs that consistently fail to contribute to next-token prediction, while a subset of weights grows large because it encodes predictive patterns.
 
 ### Falsifiable Predictions
 
@@ -187,29 +187,21 @@ Laplace-distributed weights have a structural property relevant to fine-tuning: 
 
 ---
 
-## 8. Future Work
+## 8. Extended Architectures and Statistical Primitives
 
-**Extension to modern large language models.** Extension to LLaMA, Mistral, Phi, Falcon, and other widely deployed contemporary architectures is essential. `scripts/modern_llms_ext.py` includes LLaMA-3.2-1B (safe for 4 GB VRAM); larger models are excluded and documented above.
+**Three-way distributional fitting.** Our fitting protocol has been upgraded from a two-way Laplace-vs-Gaussian comparison to a rigorous three-way fit (Laplace, Gaussian, Student-t). The Student-t distribution adds a degrees-of-freedom parameter, providing increased flexibility for heavy-tailed weight tensors. We report all three log-likelihoods and margins of preference. The Kolmogorov-Smirnov (KS) two-sample test is now our formal statistical framework for Goodness-of-Fit validation, applied independently to each distributional candidate to supplement and corroborate the likelihood-based selection.
 
-**Training checkpoint analysis.** `scripts/checkpoint_analysis.py` runs a checkpoint-by-checkpoint analysis measuring Laplace% at regular intervals throughout training, testing whether the distributional regime is set early or develops gradually.
+**Head-level analysis.** `scripts/head_level_analysis.py` iterates individual attention heads and fits per-head distributions. The underlying weight extraction in `ela/analysis.py` now natively supports GPT-2 style `c_attn` tensor decomposition, isolating per-head contributions through an in-place matrix split. This removes the architectural fallback limitation that previously forced full-layer analysis for fused-projection models.
 
-**Vision transformers as a cross-domain test.** ViT (`scripts/vit_analysis.py` notionally planned; not yet implemented) would test whether patterns are specific to language modeling or are general transformer properties.
+**MLP sub-layer analysis.** `scripts/mlp_analysis.py` extends the fitting protocol to MLP weights (feed-forward / up-proj / down-proj), testing whether the architecture-dependent distributional pattern is specific to attention projections or reflects a broader property of the transformer block.
 
-**Explicit L1 regularization as a controlled intervention.** `scripts/l1_regularization_test.py` trains BERT-style models with L1 attention weight regularization and verifies that Laplace% increases.
-
-**Base model vs. instruction-tuned vs. RLHF comparison.** Comparing distributional regimes across base, SFT, and RLHF variants of the same model would reveal whether alignment training amplifies or suppresses Laplace structure.
-
-**Student-t distribution as a third candidate.** Included in `ela/distributions.py`; re-run analysis to replace the two-way Laplace-vs-Gaussian comparison with a three-way fit.
-
-**Head-level analysis within layers.** `scripts/head_level_analysis.py` iterates individual attention heads and fits per-head distributions. Note: architectures that fuse Q/K/V projections into a single matrix (e.g., GPT-2's `c_attn`) cannot cleanly isolate individual heads — the script falls back to analyzing the full concatenated layer in those cases, which should be acknowledged as an architectural limitation when interpreting head-level results.
-
-**MLP layer analysis.** `scripts/mlp_analysis.py` extends the fitting protocol to MLP weights, testing whether patterns are specific to attention or reflect a broader property of the transformer block.
+**Extension to modern large language models.** `scripts/modern_llms_ext.py` includes `meta-llama/Llama-3.2-1B` as a safe candidate for 4 GB VRAM GPUs; larger contemporary models are documented and excluded due to memory constraints.
 
 ---
 
 ## 9. Conclusion
 
-We have presented systematic empirical evidence that transformer attention weight distributions are architecture-determined and robust to training data content. We propose a mechanistic account connecting autoregressive training to implicit L1-equivalent regularization through the maximum-entropy characterization of the Laplace distribution, and we derive concrete predictions for pruning, quantization, uncertainty quantification, and fine-tuning that differ by architecture family.
+We have presented systematic empirical evidence that transformer attention weight distributions are strongly shaped by architecture and training dynamics, and that these patterns are robust to training data content. We propose a mechanistic account connecting autoregressive training to implicit L1-equivalent regularization through the maximum-entropy characterization of the Laplace distribution, and we derive concrete predictions for pruning, quantization, uncertainty quantification, and fine-tuning that differ by architecture family.
 
 ---
 
@@ -242,18 +234,23 @@ We have presented systematic empirical evidence that transformer attention weigh
 
 ```
 Python >= 3.10, < 3.13
-pip  or  uv
+uv  (preferred)  or  pip
 ```
 
 ### Installation
 
 ```bash
 cd elayra-research
-uv pip install torch transformers scipy numpy matplotlib pytest
-# For CUDA 12.1 GPU acceleration (NVIDIA only):
-#   uv pip install torch --index-url https://download.pytorch.org/whl/cu121
-#   uv pip install transformers scipy numpy matplotlib pytest
+uv pip install -r requirements-lock.txt
 ```
+
+For CUDA 12.1 GPU acceleration (NVIDIA only):
+```bash
+uv pip install torch --index-url https://download.pytorch.org/whl/cu121
+uv pip install -r requirements-lock.txt
+```
+
+> The lock file (`requirements-lock.txt`) is generated with `uv pip compile pyproject.toml --extra dev` and pins the full transitive dependency set including `tqdm`.
 
 ### Running the full pipeline
 
@@ -313,8 +310,10 @@ elayra-research/
 ├── ela/                             # Core library (atomic: one responsibility per file)
 │   ├── __init__.py                  #   Package marker; re-exports public API
 │   ├── analysis.py                  #   Model loading, weight collection, layer fitting
-│   ├── distributions.py             #   Laplace / Gaussian / Student-t fitting + log-likelihood
 │   ├── bootstrap.py                 #   Bootstrap confidence intervals
+│   ├── config.py                    #   Centralised dataclass configs for all scripts
+│   ├── distributions.py             #   Laplace / Gaussian / Student-t fitting + log-likelihood + KS GOF
+│   ├── utils.py                     #   Batch generation, seeding, GPU memory hygiene
 │   └── viz.py                       #   Shared plotting (heatmaps, trajectories, scatters)
 │
 ├── scripts/                         # Entry points (one script per experiment)
@@ -325,16 +324,17 @@ elayra-research/
 │   ├── control_long.py              # → extended_control_500steps.json   (replaces old script)
 │   ├── control_shuffled.py          # → shuffled_control_results.json    (replaces old script)
 │   ├── init_analysis.py             # → expanded_model_init_results.json (replaces old script)
-│   ├── bootstrap_analysis.py        # → bootstrap_results.json           (NEW)
-│   ├── l1_regularization_test.py    # → l1_regularization_results.json   (NEW - Section 5.1 test)
-│   ├── checkpoint_analysis.py       # → checkpoint_analysis.json         (NEW - Section 8)
-│   ├── head_level_analysis.py       # → head_level_results.json          (NEW - Section 8)
-│   ├── mlp_analysis.py              # → mlp_analysis_results.json        (NEW - Section 8)
-│   └── modern_llms_ext.py           # → modern_llm_results.json          (NEW - Section 8)
+│   ├── bootstrap_analysis.py        # → bootstrap_results.json
+│   ├── l1_regularization_test.py    # → l1_regularization_results.json
+│   ├── checkpoint_analysis.py       # → checkpoint_analysis.json
+│   ├── head_level_analysis.py       # → head_level_results.json
+│   ├── mlp_analysis.py              # → mlp_analysis_results.json
+│   └── modern_llms_ext.py           # → modern_llm_results.json
 │
 ├── tests/
 │   ├── __init__.py
-│   └── test_analysis_core.py        # Smoke tests for ela/ + bootstrap + viz
+│   ├── test_analysis_core.py        # Smoke tests for ela/ + bootstrap + viz
+│   └── test_ela_extended.py         # Config, utils, KS GOF, deterministic validation
 │
 ├── results/                         # Generated outputs (gitignored, regenerated by `make all`)
 │   ├── experiment_meta.json         # Auto-captured by first run
@@ -344,6 +344,7 @@ elayra-research/
 │   └── (committed result files)
 │
 ├── pyproject.toml                   # Package manifest + pinned dependencies
+├── requirements-lock.txt            # Locked dependency set (uv pip compile)
 ├── Makefile                         # Unix/WSL runner
 ├── run_all.ps1                      # Windows PowerShell runner
 └── README.md                        # This file
