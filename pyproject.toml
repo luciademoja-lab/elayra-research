@@ -1,0 +1,60 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name          = "elayra-research"
+version       = "0.2.0"
+description   = "Laplace-vs-Gaussian analysis of transformer attention-weight distributions"
+readme        = "README.md"
+requires-python = ">=3.10,<3.13"
+license       = {text = "MIT"}
+authors       = [{name = "Lumira El-Anorah", email = "layra@example.com"}]
+keywords     = ["deep-learning", "transformer", "weight-distribution", "laplace", "research"]
+
+dependencies = [
+    "numpy       >=1.26,  <2.0",
+    "scipy       >=1.11,  <2.0",
+    "matplotlib  >=3.8,   <4.0",
+    "transformers >=4.36, <5.0",
+]
+
+# Optional GPU build: for CUDA 12.1 support on dedicated NVIDIA GPUs,
+# install torch separately before installing the package:
+#   pip install torch --index-url https://download.pytorch.org/whl/cu121
+# Then proceed with the standard install below.
+[project.optional-dependencies]
+dev = [
+    "pytest     >=8.0,  <9.0",
+    "pytest-cov >=5.0,  <6.0",
+]
+
+[project.scripts]
+ela-pipeline   = "scripts.run_pipeline:main"
+ela-layerwise  = "scripts.run_layerwise:main"
+ela-ctrl-short = "scripts.control_short:main"
+ela-ctrl-long  = "scripts.control_long:main"
+ela-ctrl-shuf  = "scripts.control_shuffled:main"
+ela-init       = "scripts.init_analysis:main"
+ela-bootstrap  = "scripts.bootstrap_analysis:main"
+ela-l1         = "scripts.l1_regularization_test:main"
+ela-checkpoint = "scripts.checkpoint_analysis:main"
+ela-heads      = "scripts.head_level_analysis:main"
+ela-mlp        = "scripts.mlp_analysis:main"
+ela-modern     = "scripts.modern_llms_ext:main"
+
+[tool.setuptools.packages.find]
+where  = ["."]
+include = ["ela*", "scripts*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts   = "-v --tb=short"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+ignore = ["UP007"]

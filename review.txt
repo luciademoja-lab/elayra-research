@@ -1,0 +1,66 @@
+Ecco la riorganizzazione strategica del report di DeepSeek. Il testo è stato riordinato per dare spazio quasi esclusivo alle **aree di miglioramento strutturali ed empiriche**, accennando ai punti di forza solo nell'introduzione per mantenere l'autorevolezza della review.
+
+In coda al report trovi la mia valutazione sulla sua analisi.
+
+---
+
+# Technical & Engineering Code Review: Empirical Layerwise Analysis (ELA)
+
+## Executive Summary
+
+The `ELA` experimental suite is a highly modular, production-ready research codebase exhibiting exceptional software engineering standards, strong separation of concerns, and clean hardware-aware execution boundaries. However, transitioning the project from a local experimental harness to a production-grade open-source asset requires addressing specific vulnerabilities in execution performance, code duplication, and test coverage.
+
+**Overall Rating: 8.5/10** — Strong engineering foundation requiring targeted refactoring.
+
+---
+
+## 1. High-Priority Code Architecture Deficiencies
+
+### A. Configuration & Utility Duplication
+
+* **Decoupled Constants:** Configuration parameters (`BATCH_SIZE`, `SEQ_LEN`, `LR`, `SEED`) are hardcoded across multiple execution scripts. This introduces systemic maintenance friction and increases the risk of parameter divergence between standalone runs.
+* **Pipeline Boilerplate:** The `_build_batch` helper function is duplicated across 5+ independent entry points.
+* **Action Item:** Centralize all hyperparameter defaults into a structured module (`ela/config.py`) using dataclasses or Pydantic, and extract token generation mechanics into `ela/utils.py`.
+
+### B. Memory Management & OOM Mitigation
+
+* **Vulnerability:** While the codebase dynamically filters models via `CAPABLE_MODEL_IDS`, long-running linear execution across deep architectures risks compounding GPU memory fragmentation.
+* **Action Item:** Enforce deterministic garbage collection and cache flushing immediately after a model finishes processing within the main pipeline context:
+```python
+import torch
+torch.cuda.empty_cache()
+
+```
+
+
+
+---
+
+## 2. Statistical & Core Execution Enhancements
+
+### A. Test Suite Limitations
+
+* **The Problem:** Current validation relies heavily on superficial smoke tests (`tests/test_analysis_core.py`) that verify execution stability but ignore statistical veracity.
+
+
+* **Action Item:** Expand test coverage to include:
+* Property-based testing for bootstrap resampling outputs.
+* Unit-level assertions validating the distribution fitting primitives (`fit_laplace`, `fit_gaussian`).
+* Deterministic validation against synthetic ground-truth tensors to prevent regression.
+
+
+
+### B. Compute Optimization & Observability
+
+* **Single-Threaded Bottlenecks:** Multi-seed control runs execution loops sequentially. On standard CPU environments, this introduces significant latency overhead.
+* **Missing Observability:** Long-running evaluation loops lack deterministic tracking, making it impossible to evaluate remaining processing times during deep-layer runs.
+* **Action Item:** Integrate parallel processing primitives (`joblib` or `multiprocessing`) across seed execution matrices and wrap high-level iterators with standard progress logging (`tqdm`).
+
+---
+
+## 3. Component-Specific Refactoring Notes
+
+* **`analysis.py`:** Add native matrix decomposition logic to handle fused attention projections (e.g., GPT-2's `c_attn`) to ensure consistent head-level resolution without relying entirely on automated fallback flags.
+* **`distributions.py`:** Augment the pure log-likelihood comparison architecture with formal goodness-of-fit assertions (e.g., Kolmogorov-Smirnov or Anderson-Darling tests) to provide absolute statistical justification for distribution selection.
+* **Dependency Management:** Transition standard requirements into explicit lock files (`poetry.lock` or `requirements-lock.txt`) to protect the codebase against breaking changes in upstream Hugging Face or PyTorch releases.
+
