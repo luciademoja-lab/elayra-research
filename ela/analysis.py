@@ -163,8 +163,11 @@ def summarize_layerwise_fit(
         }
         if include_student_t:
             from scipy.stats import t as student_t
-            df, loc_t, scale_t = student_t.fit(flat)
-            ll_student = float(np.sum(np.log(student_t.pdf(flat, df, loc_t, scale_t) + 1e-10)))
+            try:
+                df, loc_t, scale_t = student_t.fit(flat)
+                ll_student = float(np.sum(np.log(student_t.pdf(flat, df, loc_t, scale_t) + 1e-10)))
+            except Exception:
+                ll_student = -float("inf")
             entry["ll_student_t"] = ll_student
             entry["better_fit"] = max(
                 {"Laplace": ll_laplace, "Gaussian": ll_gaussian, "Student-t": ll_student},

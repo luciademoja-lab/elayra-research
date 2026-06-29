@@ -2,7 +2,7 @@
 # Usage:  make help
 # Requires: Python ≥3.10, pip-installed package (pip install -e ".[dev]")
 
-PY      := python
+PY      := .venv/Scripts/python.exe
 PYFLAGS := -O
 SCRIPT   = scripts
 RESULT   = results
@@ -82,4 +82,4 @@ clean:
 
 clean-results:
 	rm -f $(RESULT)/*.json $(RESULT)/*.png $(RESULT)/*.svg
-	rm -f hidden_results/*.json hidden_results/*.png
+	#rm -f hidden_results/*.json hidden_results/*.png

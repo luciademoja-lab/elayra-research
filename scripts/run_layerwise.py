@@ -39,7 +39,7 @@ def main() -> None:
     for mid in tqdm(MODEL_IDS, desc="Models", unit="model"):
         try:
             log.info("[%s] analysing first %d attention layers…", mid, MAX_LAYERS_DEPTH)
-            r = analyze_model(mid, max_layers=MAX_LAYERS_DEPTH)
+            r = analyze_model(mid, max_layers=MAX_LAYERS_DEPTH, include_student_t=True)
             all_results.append(r)
             log.info("  pretrained: %d layers  %.1f%% Laplace",
                      r["pretrained"]["num_layers"],
@@ -64,9 +64,10 @@ def main() -> None:
                            key=lambda x: x["pretrained"]["laplace_pct"],
                            reverse=True):
             p = item["pretrained"]
-            log.info("  %-35s  %5.1f%%  (%d/%d layers)",
+            st = p.get("student_t_wins", "n/a")
+            log.info("  %-35s  Laplace %5.1f%%  (%d/%d)  Student-t %s",
                      item["model_id"],
-                     p["laplace_pct"], p["laplace_wins"], p["num_layers"])
+                     p["laplace_pct"], p["laplace_wins"], p["num_layers"], st)
 
 
 if __name__ == "__main__":
