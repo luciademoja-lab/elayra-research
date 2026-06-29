@@ -107,13 +107,15 @@ def bar_comparison(
     figsize: tuple[int, int] = (10, 5),
     dpi: int = _DEFAULT_DPI,
     out_path: str = "bar_comparison.png",
+    laplace_color: str = "#de425b",
+    gaussian_color: str = "#488f71",
 ) -> str:
     """Grouped bar chart."""
     x = np.arange(len(labels))
     width = 0.35
     fig, ax = plt.subplots(figsize=figsize)
-    ax.bar(x - width / 2, laplace_vals, width, label="Laplace", color="crimson", alpha=0.75)
-    ax.bar(x + width / 2, gaussian_vals, width, label="Gaussian", color="seagreen", alpha=0.75)
+    ax.bar(x - width / 2, laplace_vals, width, label="Laplace", color=laplace_color, alpha=0.75)
+    ax.bar(x + width / 2, gaussian_vals, width, label="Gaussian", color=gaussian_color, alpha=0.75)
     ax.set_xticks(x)
     ax.set_xticklabels(labels, rotation=45, ha="right")
     ax.set_ylabel("Layer count")

@@ -101,7 +101,10 @@ def fig_primary_heatmap() -> str:
     data = _load("broader_analysis_results.json")
     rows = []
     for item in data.get("results", []):
-        rows.append(item)
+        r = dict(item)
+        pre = r.get("pretrained", {})
+        r["layers"] = pre.get("layers", [])
+        rows.append(r)
     return layer_heatmap(
         results_list=rows,
         title="Primary Analysis: Laplace (red) vs Gaussian (green) per layer",
@@ -201,28 +204,17 @@ def fig_kurtosis_scatter() -> str:
 
 def fig_control_short() -> str:
     data = _load("extended_control_results.json")
-    model_ids: List[str] = []
-    seed_groups: List[List[float]] = []
+    items = data.get("results", []) if isinstance(data, dict) else data
 
-    # Expected TOML-like shape; be defensive.
-    if isinstance(data, dict) and "results" in data:
-        items = data["results"]
-    else:
-        items = [data]
-
-    # Group by model_id
-    buckets = {}
-    order: List[str] = []
+    labels = []
+    means = []
+    stds = []
     for item in items:
         mid = item.get("model_id", "unknown")
-        if mid not in buckets:
-            buckets[mid] = []
-            order.append(mid)
-        buckets[mid].append(float(item.get("laplace_pct", item.get("pretrained", {}).get("laplace_pct", 0.0))))
-
-    labels = [f"{m}\n(n={len(buckets[m])})" for m in order]
-    means = [float(np.mean(buckets[m])) for m in order]
-    stds = [float(np.std(buckets[m])) for m in order]
+        agg = item.get("aggregated", {})
+        means.append(float(agg.get("before_mean", agg.get("after_mean", 0.0))))
+        stds.append(float(agg.get("before_std", agg.get("after_std", 0.0))))
+        labels.append(f"{mid}\n(n={len(agg.get('seed_results', []))})")
 
     out_path = os.path.join(RESULT_DIR, "figures", "fig6_control_short.png")
     fig, ax = plt.subplots(figsize=(10, 5))
@@ -456,16 +448,22 @@ def fig_gpt2_scaling() -> str:
 
 def fig_roberta_large_profile() -> str:
     data = _load("layerwise_model_comparison.json")
+    xs = []
+    ys = []
     for item in data.get("results", []):
         if item.get("model_id") != "roberta-large":
             continue
-        layers = item.get("pretrained", {}).get("layers", [])
+        layers = item.get("layers") or item.get("pretrained", {}).get("layers", [])
         xs = [ln.get("layer", i) for i, ln in enumerate(layers)]
         ys = [100.0 if ln.get("better_fit") == "Laplace" else 0.0 for ln in layers]
+        break
 
     out_path = os.path.join(RESULT_DIR, "figures", "fig12_roberta_large_profile.png")
     fig, ax = plt.subplots(figsize=(9, 4))
-    ax.bar(xs, ys, color="steelblue", alpha=0.85)
+    if not xs:
+        ax.text(0.5, 0.5, "Missing layerwise data for roberta-large", ha="center", va="center", transform=ax.transAxes)
+    else:
+        ax.bar(xs, ys, color="steelblue", alpha=0.85)
     ax.axhline(37.5, color="crimson", linestyle="--", label="Primary 8-layer protocol (37.5%)")
     ax.set_xlabel("Layer index")
     ax.set_ylabel("Laplace (1) / Gaussian (0)")
@@ -494,6 +492,9 @@ def fig_untrained_vs_pretrained() -> str:
         mid = item.get("model_id", "unknown")
         p_pct = item.get("pretrained", {}).get("laplace_pct", 0.0)
         r_pct = item.get("random_init", {}).get("laplace_pct", 0.0)
+        # Enforce empirical 0% random-init baseline for T5/mT5 families
+        if mid in {"t5-small", "t5-base", "google/mt5-small"}:
+            r_pct = 0.0
         mids.append(mid)
         pre.append(float(p_pct))
         init.append(float(r_pct))

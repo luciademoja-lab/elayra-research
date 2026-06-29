@@ -306,6 +306,28 @@ make clean-results   # removes results/*.json and results/*.png
 | `results/expanded_model_init_results.json` | Initialization kurtosis × 15 models |
 | `results/l1_regularization_results.json` | L1 hypothesis test (BERT-base ± L1, 200 steps) |
 
+### Figures
+
+All PNG figures are in `results/figures/`.
+
+| File | Content |
+|---|---|
+| `results/figures/fig1_primary_bar.png` | Primary Laplace vs Gaussian wins per model (grouped bar) |
+| `results/figures/fig2_primary_heatmap.png` | Layer-wise Laplace/Gaussian heatmap (model x layer) |
+| `results/figures/fig3_depth_curves.png` | Cumulative Laplace prevalence by depth |
+| `results/figures/fig6_control_short.png` | Short-horizon random-label control (before vs after) |
+| `results/figures/fig9_family_summary.png` | Architecture-family Laplace summary |
+| `results/figures/fig10_roberta_bert_group.png` | RoBERTa + BERT grouped comparison |
+| `results/figures/fig11_gpt2_scaling.png` | GPT-2 scaling profile |
+| `results/figures/fig12_roberta_large_profile.png` | RoBERTa-large layerwise win profile |
+| `results/figures/fig13_untrained_vs_pretrained.png` | Random-init vs pretrained Laplace prevalence |
+| `results/figures/fig14_layers_summary.png` | Layer-count summary |
+| `results/figures/fig15_controls_composite.png` | Composite control panel |
+| `results/figures/fig16_init_histogram.png` | Initialization kurtosis histogram |
+| `results/figures/fig17_margin_heatmap.png` | Margin-of-victory heatmap |
+| `results/figures/fig18_head_level.png` | Per-head distribution fit profile |
+| `results/figures/fig19_init_trend.png` | Initialization kurtosis trend |
+
 ---
 
 ## Project Structure
