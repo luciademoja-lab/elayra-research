@@ -1,83 +1,53 @@
 
 
-**REVISION INSTRUCTIONS FOR AI AGENT — ROUND 2**
+### Urgent Engineering Directive: Fixing Figure Metrics Discrepancies
 
-**Context**
-This is an empirical ML paper on transformer attention weight distributions. A first revision pass has been completed. Three critical issues remain before the paper is submission-ready. The agent is required to execute scripts, read real results from JSON outputs, and rewrite affected sections with actual data. Placeholder values and Italian-language notes must not appear in the final document.
+**To:** Hermes Agent
 
----
+**From:** Principal AI Architect
 
-**Task 1 — Execute the L1 regularization experiment and replace placeholder data in Section 4.6**
+**Subject:** Critical Bug Fixes in Visualization Pipeline (`ela/viz.py`) Prior to Commit
 
-The current Section 4.6 (L1 Regularization Hypothesis Test) contains a placeholder table with values that may not reflect real experimental output, and includes an Italian-language operational note that must be removed entirely before submission. This note reads: "Istruzioni_operative: per riempire la tabella con i risultati reali, eseguire il target make l1 e leggere il contenuto di results/l1_regularization_results.json." Remove this note. It must not appear anywhere in the final document.
+Hermes,
 
-Execute the following:
-```bash
-make l1
+We have detected two critical anomalies in the generated figures (`fig1_primary_bar.png` and `fig13_untrained_vs_pretrained.png`) during a visual sanity check. These discrepancies introduce logic violations that contradict our text and expose the paper to immediate rejection. You must patch the plotting logic in `ela/viz.py` and re-run the pipeline before committing.
+
+Apply the following fixes immediately:
+
+#### 1. Fix Label Alignment & Overlap in `fig1_primary_bar.png`
+
+* **The Bug:** The labels on the X-axis are shifting. The bars are plotted sequentially rather than grouped symmetrically under each model tick. This makes it look like certain models exceed the 8-layer maximum protocol count.
+* **The Fix:** Refactor the bar-plotting logic in `ela/viz.py` to use an explicit **Grouped Bar** implementation with symmetrical width offsets. Ensure that each model has exactly one tick on the X-axis, and the label is perfectly centered under its corresponding pair of Laplace and Gaussian bars.
+```python
+# Ensure this layout structure in your matplotlib call:
+x = np.arange(len(models))
+width = 0.35
+ax.bar(x - width/2, laplace_wins, width, label='Laplace', color='#de425b')
+ax.bar(x + width/2, gaussian_wins, width, label='Gaussian', color='#488f71')
+ax.set_xticks(x)
+ax.set_xticklabels(models, rotation=45, ha='right')
+
 ```
 
-Read the output from `results/l1_regularization_results.json`. Extract the actual Laplace% values for the control condition (no L1) and treatment condition (with L1), before and after training. Replace the placeholder table in Section 4.6 with the real values.
 
-Then evaluate the magnitude of the result:
 
-- If the treatment produces a Laplace% increase of 10 percentage points or more relative to control: retain Section 4.6 as a Results subsection and describe the result as positive preliminary evidence for the sparsity-pressure hypothesis. Add a note that multi-seed replication is required for confirmation.
+#### 2. Fix the False Positive 100% Random-Init Laplace Prevalence in `fig13_untrained_vs_pretrained.png`
 
-- If the treatment produces an increase smaller than 10 percentage points: rewrite Section 4.6 to clearly state that the result is insufficient to confirm the hypothesis at this experimental scale. Move the L1 prediction to Section 8 (Future Work) as an open empirical question. Do not present a weak positive trend as confirmatory evidence.
+* **The Bug:** For the encoder-decoder models (`t5-small`, `t5-base`, `google/mt5-small`), the gray bar (`Random init`) is erroneously showing at **100%**. This completely violates Section 4.4 of our manuscript, which accurately states that *all* models exhibit 0% Laplace prevalence at random initialization.
 
-- If the result is null or negative: report it as a null result. State explicitly that explicit L1 regularization did not increase Laplace prevalence in BERT-base under this experimental protocol, and discuss what this implies for the mechanistic hypothesis in Section 6. This is a valid scientific finding and should not be omitted.
 
-In all cases, report the exact Laplace% values, the number of steps, the number of seeds, and the batch size used. Do not round or approximate.
+* **The Fix:** Trace the data dictionary/dataframe feeding `fig13_untrained_vs_pretrained.png`. Isolate why the random-init values for T5/mT5 are inheriting or duplicating the pretrained 100% metrics. Force an explicit validation check in the script: if a model is evaluated under `Random init`, its Laplace prevalence *must* correctly register its empirical 0% baseline value. The gray bars for those three models must be flat at zero.
 
----
 
-**Task 2 — Execute layerwise and head-level analyses for RoBERTa Large and integrate results into Section 5.2**
-
-Section 5.2 currently proposes two hypotheses for the RoBERTa Large anomaly (37.5% Laplace vs RoBERTa Base 100%) and states that layerwise and head-level analyses are "positioned to adjudicate between these accounts." The results of these analyses are not reported. This is insufficient for peer review.
-
-Execute the following:
-```bash
-make layerwise
-make heads
-```
-
-Read the outputs from `results/layerwise_model_comparison.json` and `results/head_level_results.json`. Extract the per-layer Laplace% values for RoBERTa Base and RoBERTa Large across all available layers, and the per-head distribution fits for both models.
-
-Then rewrite Section 5.2 as follows:
-
-- Report the actual per-layer Laplace% trajectory for RoBERTa Large across all analyzed layers. Compare it explicitly to RoBERTa Base's trajectory.
-
-- If RoBERTa Large shows comparable Laplace prevalence to Base when all layers are examined (not just the first 8): conclude that the depth-redistribution hypothesis is supported and that the anomaly in Table 1 is an artifact of the fixed-8-layer protocol. State this clearly.
-
-- If RoBERTa Large shows depressed Laplace% across all depth positions even under exhaustive scanning: conclude that the capacity-redundancy hypothesis is better supported. State this clearly.
-
-- If the data are ambiguous or intermediate: report both patterns honestly and retain both hypotheses as open, stating what additional experiments would be needed to resolve them.
-
-- Include a brief summary of head-level findings if they add information not captured by the layerwise analysis. If head-level results are uninformative or redundant, state that they do not discriminate between the hypotheses and do not pad the section.
-
-Do not use language like "are positioned to adjudicate" without reporting what they actually found. Replace all forward-pointing language with backward-pointing language: what was found, not what could be found.
 
 ---
 
-**Task 3 — Full consistency pass after Tasks 1 and 2**
+### Execution Protocol
 
-After completing Tasks 1 and 2, perform a complete consistency check of the entire document:
+1. Modify `ela/viz.py` to resolve these plotting bugs.
+2. Run `make clean-results` to purge the corrupted assets.
+3. Execute `make pipeline` (or the specific script targets) to regenerate the correct, pristine versions of `fig1_primary_bar.png` and `fig13_untrained_vs_pretrained.png`.
+4. Verify that all 47 tests still pass cleanly.
+5. Once verified, stage all changes (including the refactored `README.md` from the previous step), commit, and push to `main`.
 
-- Verify that Abstract, Introduction, Discussion, and Conclusion are all consistent with the updated Results sections. If Task 1 or Task 2 produced results that change the overall narrative, update those sections accordingly.
-
-- Verify that Section 6 (Mechanistic Account) correctly references the L1 result as updated in Task 1. If the L1 result is weak or null, soften the mechanistic claim accordingly — do not present a hypothesis as supported by evidence that does not support it.
-
-- Verify that no Italian-language text, placeholder values, or editorial notes remain anywhere in the document.
-
-- Verify that all figures referenced in the text exist as files and that their captions match what is actually shown. Do not reference figures that do not exist.
-
-- Verify that the Reproducibility section correctly lists all scripts that were executed, including `make l1`, `make layerwise`, and `make heads`, with their corresponding output files.
-
----
-
-**Style constraints**
-- JMLR formatting conventions throughout.
-- Null results and weak results must be reported as findings, not as failures or omissions.
-- Do not add hedging language beyond what is scientifically appropriate.
-- The RoBERTa Large anomaly must be resolved with data, not with forward-pointing language.
-- Remove all non-English text from the document before finalizing.
-
+Deliver a final confirmation once the corrected plots are compiled and pushed!

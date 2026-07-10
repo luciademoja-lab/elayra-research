@@ -1,0 +1,1713 @@
+{
+  "results": [
+    {
+      "model_id": "gpt2",
+      "architecture": "gpt2",
+      "layers": [
+        {
+          "layer": 0,
+          "n_heads": 12,
+          "laplace_heads": 12,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            },
+            {
+              "head": 1,
+              "fit": "Laplace"
+            },
+            {
+              "head": 2,
+              "fit": "Laplace"
+            },
+            {
+              "head": 3,
+              "fit": "Laplace"
+            },
+            {
+              "head": 4,
+              "fit": "Laplace"
+            },
+            {
+              "head": 5,
+              "fit": "Laplace"
+            },
+            {
+              "head": 6,
+              "fit": "Laplace"
+            },
+            {
+              "head": 7,
+              "fit": "Laplace"
+            },
+            {
+              "head": 8,
+              "fit": "Laplace"
+            },
+            {
+              "head": 9,
+              "fit": "Laplace"
+            },
+            {
+              "head": 10,
+              "fit": "Laplace"
+            },
+            {
+              "head": 11,
+              "fit": "Laplace"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "model_id": "gpt2-medium",
+      "architecture": "gpt2",
+      "layers": [
+        {
+          "layer": 0,
+          "n_heads": 16,
+          "laplace_heads": 16,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            },
+            {
+              "head": 1,
+              "fit": "Laplace"
+            },
+            {
+              "head": 2,
+              "fit": "Laplace"
+            },
+            {
+              "head": 3,
+              "fit": "Laplace"
+            },
+            {
+              "head": 4,
+              "fit": "Laplace"
+            },
+            {
+              "head": 5,
+              "fit": "Laplace"
+            },
+            {
+              "head": 6,
+              "fit": "Laplace"
+            },
+            {
+              "head": 7,
+              "fit": "Laplace"
+            },
+            {
+              "head": 8,
+              "fit": "Laplace"
+            },
+            {
+              "head": 9,
+              "fit": "Laplace"
+            },
+            {
+              "head": 10,
+              "fit": "Laplace"
+            },
+            {
+              "head": 11,
+              "fit": "Laplace"
+            },
+            {
+              "head": 12,
+              "fit": "Laplace"
+            },
+            {
+              "head": 13,
+              "fit": "Laplace"
+            },
+            {
+              "head": 14,
+              "fit": "Laplace"
+            },
+            {
+              "head": 15,
+              "fit": "Laplace"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "model_id": "gpt2-large",
+      "architecture": "gpt2",
+      "layers": [
+        {
+          "layer": 0,
+          "n_heads": 20,
+          "laplace_heads": 20,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            },
+            {
+              "head": 1,
+              "fit": "Laplace"
+            },
+            {
+              "head": 2,
+              "fit": "Laplace"
+            },
+            {
+              "head": 3,
+              "fit": "Laplace"
+            },
+            {
+              "head": 4,
+              "fit": "Laplace"
+            },
+            {
+              "head": 5,
+              "fit": "Laplace"
+            },
+            {
+              "head": 6,
+              "fit": "Laplace"
+            },
+            {
+              "head": 7,
+              "fit": "Laplace"
+            },
+            {
+              "head": 8,
+              "fit": "Laplace"
+            },
+            {
+              "head": 9,
+              "fit": "Laplace"
+            },
+            {
+              "head": 10,
+              "fit": "Laplace"
+            },
+            {
+              "head": 11,
+              "fit": "Laplace"
+            },
+            {
+              "head": 12,
+              "fit": "Laplace"
+            },
+            {
+              "head": 13,
+              "fit": "Laplace"
+            },
+            {
+              "head": 14,
+              "fit": "Laplace"
+            },
+            {
+              "head": 15,
+              "fit": "Laplace"
+            },
+            {
+              "head": 16,
+              "fit": "Laplace"
+            },
+            {
+              "head": 17,
+              "fit": "Laplace"
+            },
+            {
+              "head": 18,
+              "fit": "Laplace"
+            },
+            {
+              "head": 19,
+              "fit": "Laplace"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "model_id": "bert-base-uncased",
+      "architecture": "bert",
+      "layers": [
+        {
+          "layer": 0,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        },
+        {
+          "layer": 1,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        },
+        {
+          "layer": 2,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 3,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        },
+        {
+          "layer": 4,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        },
+        {
+          "layer": 5,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        },
+        {
+          "layer": 6,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        },
+        {
+          "layer": 7,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        },
+        {
+          "layer": 8,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        },
+        {
+          "layer": 9,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        },
+        {
+          "layer": 10,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        },
+        {
+          "layer": 11,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        }
+      ],
+      "note": "fallback (whole-layer as single head)"
+    },
+    {
+      "model_id": "bert-large-uncased",
+      "architecture": "bert",
+      "layers": [
+        {
+          "layer": 0,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        },
+        {
+          "layer": 1,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        },
+        {
+          "layer": 2,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        },
+        {
+          "layer": 3,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        },
+        {
+          "layer": 4,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        },
+        {
+          "layer": 5,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        },
+        {
+          "layer": 6,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        },
+        {
+          "layer": 7,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        },
+        {
+          "layer": 8,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        },
+        {
+          "layer": 9,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        },
+        {
+          "layer": 10,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        },
+        {
+          "layer": 11,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        }
+      ],
+      "note": "fallback (whole-layer as single head)"
+    },
+    {
+      "model_id": "distilbert-base-uncased",
+      "architecture": "distilbert",
+      "layers": [
+        {
+          "layer": 0,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        },
+        {
+          "layer": 1,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 2,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        },
+        {
+          "layer": 3,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        },
+        {
+          "layer": 4,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        },
+        {
+          "layer": 5,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        }
+      ],
+      "note": "fallback (whole-layer as single head)"
+    },
+    {
+      "model_id": "roberta-base",
+      "architecture": "roberta",
+      "layers": [
+        {
+          "layer": 0,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 1,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 2,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 3,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 4,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 5,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 6,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 7,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 8,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 9,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 10,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 11,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        }
+      ],
+      "note": "fallback (whole-layer as single head)"
+    },
+    {
+      "model_id": "roberta-large",
+      "architecture": "roberta",
+      "layers": [
+        {
+          "layer": 0,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        },
+        {
+          "layer": 1,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 2,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 3,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 4,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        },
+        {
+          "layer": 5,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        },
+        {
+          "layer": 6,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        },
+        {
+          "layer": 7,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        },
+        {
+          "layer": 8,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        },
+        {
+          "layer": 9,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        },
+        {
+          "layer": 10,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 11,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        }
+      ],
+      "note": "fallback (whole-layer as single head)"
+    },
+    {
+      "model_id": "distilroberta-base",
+      "architecture": "roberta",
+      "layers": [
+        {
+          "layer": 0,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 1,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 2,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 3,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 4,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 5,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        }
+      ],
+      "note": "fallback (whole-layer as single head)"
+    },
+    {
+      "model_id": "albert-base-v2",
+      "architecture": "albert",
+      "layers": [
+        {
+          "layer": 0,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        }
+      ],
+      "note": "fallback (whole-layer as single head)"
+    },
+    {
+      "model_id": "google/electra-small-discriminator",
+      "architecture": "electra",
+      "layers": [
+        {
+          "layer": 0,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 1,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 2,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        },
+        {
+          "layer": 3,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 4,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 5,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 6,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        },
+        {
+          "layer": 7,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        },
+        {
+          "layer": 8,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        },
+        {
+          "layer": 9,
+          "n_heads": 1,
+          "laplace_heads": 0,
+          "gaussian_heads": 1,
+          "laplace_pct": 0.0,
+          "better_fit": "Gaussian",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Gaussian"
+            }
+          ]
+        },
+        {
+          "layer": 10,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 11,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        }
+      ],
+      "note": "fallback (whole-layer as single head)"
+    },
+    {
+      "model_id": "t5-small",
+      "architecture": "t5",
+      "layers": [
+        {
+          "layer": 0,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 1,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 2,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 3,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 4,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 5,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        }
+      ],
+      "note": "fallback (whole-layer as single head)"
+    },
+    {
+      "model_id": "t5-base",
+      "architecture": "t5",
+      "layers": [
+        {
+          "layer": 0,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 1,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 2,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 3,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 4,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 5,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 6,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 7,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 8,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 9,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 10,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 11,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        }
+      ],
+      "note": "fallback (whole-layer as single head)"
+    },
+    {
+      "model_id": "google/mt5-small",
+      "architecture": "mt5",
+      "layers": [
+        {
+          "layer": 0,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 1,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 2,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 3,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 4,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 5,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 6,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        },
+        {
+          "layer": 7,
+          "n_heads": 1,
+          "laplace_heads": 1,
+          "gaussian_heads": 0,
+          "laplace_pct": 100.0,
+          "better_fit": "Laplace",
+          "head_details": [
+            {
+              "head": 0,
+              "fit": "Laplace"
+            }
+          ]
+        }
+      ],
+      "note": "fallback (whole-layer as single head)"
+    }
+  ],
+  "failures": [
+    {
+      "model_id": "facebook/bart-base",
+      "error": "'numpy.ndarray' object has no attribute 'detach'"
+    }
+  ]
+}

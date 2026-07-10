@@ -1,0 +1,220 @@
+{
+  "results": [
+    {
+      "model_id": "gpt2",
+      "architecture": "gpt2",
+      "pretrained": {
+        "num_layers": 12,
+        "laplace_wins": 1,
+        "gaussian_wins": 0,
+        "laplace_pct": 8.333333333333334,
+        "layers": [
+          {
+            "layer": 0,
+            "ll_laplace": 1022804.0098696464,
+            "ll_gaussian": 610934.3657503619,
+            "better_fit": "Laplace",
+            "ll_student_t": 1008512.6372570385
+          },
+          {
+            "layer": 1,
+            "ll_laplace": 1622557.627552413,
+            "ll_gaussian": 1470584.5480087711,
+            "better_fit": "Student-t",
+            "ll_student_t": 1624050.4472341668
+          },
+          {
+            "layer": 2,
+            "ll_laplace": 1468046.6727838868,
+            "ll_gaussian": 1322529.208586676,
+            "better_fit": "Student-t",
+            "ll_student_t": 1470684.7185229124
+          },
+          {
+            "layer": 3,
+            "ll_laplace": 1496890.7647811817,
+            "ll_gaussian": 1472337.2437815624,
+            "better_fit": "Student-t",
+            "ll_student_t": 1520565.7109446432
+          },
+          {
+            "layer": 4,
+            "ll_laplace": 1426575.6393447649,
+            "ll_gaussian": 1384689.023741359,
+            "better_fit": "Student-t",
+            "ll_student_t": 1455252.0337493005
+          },
+          {
+            "layer": 5,
+            "ll_laplace": 1615319.494311092,
+            "ll_gaussian": 1649021.4649086923,
+            "better_fit": "Student-t",
+            "ll_student_t": 1670685.2423248745
+          },
+          {
+            "layer": 6,
+            "ll_laplace": 1522753.0117933147,
+            "ll_gaussian": 1585314.6729545782,
+            "better_fit": "Student-t",
+            "ll_student_t": 1595982.1084720178
+          },
+          {
+            "layer": 7,
+            "ll_laplace": 1488014.7540831678,
+            "ll_gaussian": 1553516.7544775158,
+            "better_fit": "Student-t",
+            "ll_student_t": 1562957.8742565964
+          },
+          {
+            "layer": 8,
+            "ll_laplace": 1465552.9024646357,
+            "ll_gaussian": 1547350.3136658566,
+            "better_fit": "Student-t",
+            "ll_student_t": 1552576.652000877
+          },
+          {
+            "layer": 9,
+            "ll_laplace": 1412911.6082472904,
+            "ll_gaussian": 1488946.2547497745,
+            "better_fit": "Student-t",
+            "ll_student_t": 1496337.0322185862
+          },
+          {
+            "layer": 10,
+            "ll_laplace": 1380496.9264311376,
+            "ll_gaussian": 1446555.8211627882,
+            "better_fit": "Student-t",
+            "ll_student_t": 1458074.6643436947
+          },
+          {
+            "layer": 11,
+            "ll_laplace": 1335668.7061339053,
+            "ll_gaussian": 1337259.4198438905,
+            "better_fit": "Student-t",
+            "ll_student_t": 1392014.8718949056
+          }
+        ],
+        "student_t_wins": 11,
+        "student_t_pct": 91.66666666666667
+      },
+      "random_init": {
+        "num_layers": 12,
+        "laplace_wins": 0,
+        "gaussian_wins": 4,
+        "laplace_pct": 0.0,
+        "layers": [
+          {
+            "layer": 0,
+            "ll_laplace": 5767826.094218932,
+            "ll_gaussian": 5882124.570590993,
+            "better_fit": "Gaussian",
+            "ll_student_t": 5882124.570479676
+          },
+          {
+            "layer": 1,
+            "ll_laplace": 5766656.89725752,
+            "ll_gaussian": 5880945.793582095,
+            "better_fit": "Student-t",
+            "ll_student_t": 5880945.880750122
+          },
+          {
+            "layer": 2,
+            "ll_laplace": 5767877.274944166,
+            "ll_gaussian": 5881955.631430507,
+            "better_fit": "Student-t",
+            "ll_student_t": 5881955.731222972
+          },
+          {
+            "layer": 3,
+            "ll_laplace": 5767767.552100531,
+            "ll_gaussian": 5882109.388268773,
+            "better_fit": "Student-t",
+            "ll_student_t": 5882109.388437428
+          },
+          {
+            "layer": 4,
+            "ll_laplace": 5767403.97628432,
+            "ll_gaussian": 5881147.313340704,
+            "better_fit": "Student-t",
+            "ll_student_t": 5881148.033451758
+          },
+          {
+            "layer": 5,
+            "ll_laplace": 5767156.345571246,
+            "ll_gaussian": 5880642.230232913,
+            "better_fit": "Student-t",
+            "ll_student_t": 5880642.676377356
+          },
+          {
+            "layer": 6,
+            "ll_laplace": 5770659.538767172,
+            "ll_gaussian": 5884814.023476366,
+            "better_fit": "Student-t",
+            "ll_student_t": 5884814.169008555
+          },
+          {
+            "layer": 7,
+            "ll_laplace": 5766766.199842837,
+            "ll_gaussian": 5881695.606773844,
+            "better_fit": "Gaussian",
+            "ll_student_t": 5881695.598717949
+          },
+          {
+            "layer": 8,
+            "ll_laplace": 5768499.829406148,
+            "ll_gaussian": 5882322.179799467,
+            "better_fit": "Student-t",
+            "ll_student_t": 5882322.3348869085
+          },
+          {
+            "layer": 9,
+            "ll_laplace": 5768371.408218581,
+            "ll_gaussian": 5883026.355289107,
+            "better_fit": "Gaussian",
+            "ll_student_t": 5883026.35484265
+          },
+          {
+            "layer": 10,
+            "ll_laplace": 5767892.107939133,
+            "ll_gaussian": 5882015.316032254,
+            "better_fit": "Student-t",
+            "ll_student_t": 5882015.3309343755
+          },
+          {
+            "layer": 11,
+            "ll_laplace": 5767147.859362224,
+            "ll_gaussian": 5881985.19416788,
+            "better_fit": "Gaussian",
+            "ll_student_t": 5881985.194155991
+          }
+        ],
+        "student_t_wins": 8,
+        "student_t_pct": 66.66666666666667
+      },
+      "init_stats": {
+        "mean": -4.051503568023417e-08,
+        "std": 0.019998810048127223,
+        "range": 0.21411606669425964,
+        "kurtosis": -0.00022765649538980526,
+        "skewness": 0.0004466660594205143
+      }
+    }
+  ],
+  "failures": [],
+  "pending": [
+    "gpt2-medium",
+    "gpt2-large",
+    "bert-base-uncased",
+    "bert-large-uncased",
+    "distilbert-base-uncased",
+    "roberta-base",
+    "roberta-large",
+    "distilroberta-base",
+    "albert-base-v2",
+    "google/electra-small-discriminator",
+    "facebook/bart-base",
+    "t5-small",
+    "t5-base",
+    "google/mt5-small"
+  ]
+}
