@@ -67,7 +67,7 @@ In the primary analysis (`scripts/run_pipeline.py`), we analyze the first 8 laye
 
 ### 3.3 Distribution Fitting and Layer Classification
 
-For each per-layer weight vector, we fit Laplace, Gaussian, and Student-t distributions using maximum-likelihood estimation via `scipy.stats`. We compute the total log-likelihood of the observed weights under each fitted distribution and classify each layer based on which distribution achieves the highest log-likelihood. We report the absolute log-likelihood values for each layer, enabling assessment of the margin of preference. In addition to the likelihood comparison, we apply the Kolmogorov-Smirnov (KS) two-sample test as a formal goodness-of-fit validation for each distributional candidate.
+For each per-layer weight vector, we fit Laplace, Gaussian, and Student-t distributions using maximum-likelihood estimation via `scipy.stats`. Layers exceeding 500,000 elements are deterministically subsampled to 500,000 weights before fitting, using a fixed per-layer seed (`ELA_SUBSAMPLE_SEED + layer_index`) so that repeated runs fit an identical subsample; this keeps the iterative Student-t MLE tractable and, by fixing n across layers and models, makes log-likelihood margins and goodness-of-fit statistics directly comparable across the sample (set `ELA_SUBSAMPLE=0` for full-tensor fits). We compute the total log-likelihood of the observed weights under each fitted distribution and classify each layer based on which distribution achieves the highest log-likelihood. We report the absolute log-likelihood values for each layer, enabling assessment of the margin of preference. In addition to the likelihood comparison, we apply the Kolmogorov-Smirnov (KS) two-sample test as a formal goodness-of-fit validation for each distributional candidate.
 
 Both Laplace and Gaussian have two free parameters (location and scale), so the log-likelihood comparison does not require an information-criterion correction for model complexity. The Student-t distribution adds a degrees-of-freedom parameter, providing greater flexibility for heavy-tailed tensors. The KS test provides an independent, distribution-free check on fit quality, moving beyond subjective log-likelihood wins toward statistically grounded model selection.
 
@@ -247,9 +247,15 @@ cd elayra-research
 uv pip install -r requirements-lock.txt
 ```
 
-For CUDA 12.1 GPU acceleration (NVIDIA only):
+For GPU acceleration (NVIDIA only), install a torch wheel matching your GPU generation. GTX/RTX 10–40 series:
 ```bash
 uv pip install torch --index-url https://download.pytorch.org/whl/cu121
+uv pip install -r requirements-lock.txt
+```
+
+RTX 50-series (Blackwell, sm_120) **requires** torch ≥ 2.7 built for CUDA 12.8 — cu121 wheels will not run on these GPUs:
+```bash
+uv pip install torch --index-url https://download.pytorch.org/whl/cu128
 uv pip install -r requirements-lock.txt
 ```
 
@@ -264,8 +270,7 @@ make all
 
 **Windows PowerShell:**
 ```powershell
-.
-un_all.ps1 -Target all
+.\run_all.ps1 -Target all
 ```
 
 **Or target individual analyses:**
@@ -294,17 +299,19 @@ To start fresh:
 make clean-results   # removes results/*.json and results/*.png
 ```
 
-### Key results (pre-generated, included in `hidden_results/`)
+### Key results (tracked in `results/`)
 
-| File | Content |
-|---|---|
-| `results/broader_analysis_results.json` | 15-model primary + random-init, with bootstrap CI |
-| `results/layerwise_model_comparison.json` | Per-layer fit up to 15 layers per model |
-| `results/extended_control_results.json` | 25-step multi-seed × 6 models |
-| `results/extended_control_500steps.json` | 500-step trajectories × 3 models |
-| `results/shuffled_control_results.json` | 10-step shuffled-label results |
-| `results/expanded_model_init_results.json` | Initialization kurtosis × 15 models |
-| `results/l1_regularization_results.json` | L1 hypothesis test (BERT-base ± L1, 200 steps) |
+| File | Content | Status |
+|---|---|---|
+| `results/broader_analysis_results.json` | 15-model primary + random-init | committed (2-way Laplace/Gaussian; 3-way rerun pending) |
+| `results/layerwise_model_comparison.json` | Per-layer 3-way fit up to 15 layers per model | **partial** — 1/15 models done, 14 in `pending` |
+| `results/extended_control_results.json` | 25-step multi-seed control | **partial** — 1 model only |
+| `results/expanded_model_init_results.json` | Initialization kurtosis × 15 models | committed |
+| `results/head_level_results.json` | Per-head fits | committed (BART failed, fix pending) |
+| `results/extended_control_500steps.json` | 500-step trajectories | to regenerate (`make control-long`) |
+| `results/shuffled_control_results.json` | 10-step shuffled-label results | to regenerate (`make control-shuffled`) |
+| `results/l1_regularization_results.json` | L1 hypothesis test (BERT-base ± L1, 200 steps) | to regenerate (`make l1`) |
+| `results/bootstrap_results.json` | Bootstrap CI for Spearman ρ (Section 4.4) | to regenerate (`make bootstrap`) |
 
 ### Figures
 
@@ -315,6 +322,8 @@ All PNG figures are in `results/figures/`.
 | `results/figures/fig1_primary_bar.png` | Primary Laplace vs Gaussian wins per model (grouped bar) |
 | `results/figures/fig2_primary_heatmap.png` | Layer-wise Laplace/Gaussian heatmap (model x layer) |
 | `results/figures/fig3_depth_curves.png` | Cumulative Laplace prevalence by depth |
+| `results/figures/fig4_layerwise_heatmap.png` | Layerwise (15-layer) win heatmap |
+| `results/figures/fig5_kurtosis_scatter.png` | Init kurtosis vs pretrained Laplace% scatter |
 | `results/figures/fig6_control_short.png` | Short-horizon random-label control (before vs after) |
 | `results/figures/fig9_family_summary.png` | Architecture-family Laplace summary |
 | `results/figures/fig10_roberta_bert_group.png` | RoBERTa + BERT grouped comparison |
@@ -327,6 +336,8 @@ All PNG figures are in `results/figures/`.
 | `results/figures/fig17_margin_heatmap.png` | Margin-of-victory heatmap |
 | `results/figures/fig18_head_level.png` | Per-head distribution fit profile |
 | `results/figures/fig19_init_trend.png` | Initialization kurtosis trend |
+
+fig7 (`control_long`) and fig8 (`l1`) are regenerated by `python scripts/generate_figures.py` once the corresponding result JSONs exist.
 
 ---
 
@@ -356,19 +367,19 @@ elayra-research/
 │   ├── checkpoint_analysis.py       # → checkpoint_analysis.json
 │   ├── head_level_analysis.py       # → head_level_results.json
 │   ├── mlp_analysis.py              # → mlp_analysis_results.json
-│   └── modern_llms_ext.py           # → modern_llm_results.json
+│   ├── modern_llms_ext.py           # → modern_llm_results.json
+│   ├── run_layerwise_incremental.py # → layerwise, one model per invocation (resumable)
+│   └── generate_figures.py          # → results/figures/fig1..fig19
 │
 ├── tests/
 │   ├── __init__.py
 │   ├── test_analysis_core.py        # Smoke tests for ela/ + bootstrap + viz
 │   └── test_ela_extended.py         # Config, utils, KS GOF, deterministic validation
 │
-├── results/                         # Generated outputs (gitignored, regenerated by `make all`)
+├── results/                         # Generated outputs (tracked in git; regenerate via `make all`)
 │   ├── experiment_meta.json         # Auto-captured by first run
+│   ├── figures/                     # fig1..fig19 (generate_figures.py)
 │   └── *.json  *.png
-│
-├── hidden_results/                  # Larger JSONs tracked in git (too large for .gitignore)
-│   └── (committed result files)
 │
 ├── pyproject.toml                   # Package manifest + pinned dependencies
 ├── requirements-lock.txt            # Locked dependency set (uv pip compile)
