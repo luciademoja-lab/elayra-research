@@ -207,10 +207,22 @@ def summarize_layerwise_fit(
             except Exception:
                 ll_student = -float("inf")
             entry["ll_student_t"] = ll_student
-            entry["better_fit"] = max(
-                {"Laplace": ll_laplace, "Gaussian": ll_gaussian, "Student-t": ll_student},
-                key=lambda k: {"Laplace": ll_laplace, "Gaussian": ll_gaussian, "Student-t": ll_student}[k],
-            )
+            # Classify by BIC, not raw log-likelihood. Student-t has a third
+            # free parameter (df) and nests the Gaussian as df -> inf, so raw
+            # LL is biased toward it: on synthetic Gaussian data the t "wins"
+            # with df in the hundreds. AIC/BIC penalise the extra parameter and
+            # recover the true generating family. n is large enough here that
+            # AIC and BIC almost always agree; both are reported.
+            n = flat.size
+            k = {"Laplace": 2, "Gaussian": 2, "Student-t": 3}
+            ll = {"Laplace": ll_laplace, "Gaussian": ll_gaussian, "Student-t": ll_student}
+            aic = {d: 2 * k[d] - 2 * ll[d] for d in ll}
+            bic = {d: k[d] * np.log(n) - 2 * ll[d] for d in ll}
+            entry["aic_winner"] = min(aic, key=aic.get)
+            entry["bic_winner"] = min(bic, key=bic.get)
+            entry["rawll_winner"] = max(ll, key=ll.get)
+            # Primary classification uses BIC (most conservative on the df penalty).
+            entry["better_fit"] = entry["bic_winner"]
         results.append(entry)
 
     laplace_wins  = sum(1 for r in results if r["better_fit"] == "Laplace")
