@@ -18,6 +18,13 @@ env/
 ENV/
 .conda/
 .python-version
+# venv accidentally created at repo root (bin/lib/include/share + pyvenv.cfg)
+/bin/
+/lib/
+/lib64/
+/include/
+/share/
+pyvenv.cfg
 
 # ── IDE / editor ────────────────────────────────────────────────────────────
 .idea/
