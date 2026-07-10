@@ -136,11 +136,35 @@ def collect_attention_tensors(
 # Distribution fitting
 # ---------------------------------------------------------------------------
 
+# Layer subsampling for tractable MLE fitting (esp. Student-t, whose
+# iterative fit on full tensors of >10^6 elements is the dominant cost).
+# ELA_SUBSAMPLE=0 disables subsampling (full-tensor fits, slow).
+SUBSAMPLE_N: int = int(os.environ.get("ELA_SUBSAMPLE", "500000"))
+SUBSAMPLE_SEED: int = int(os.environ.get("ELA_SUBSAMPLE_SEED", "12345"))
+
+
+def _maybe_subsample(flat: np.ndarray, layer_idx: int) -> np.ndarray:
+    """Deterministically subsample a flattened weight vector.
+
+    Uses a per-layer seed (SUBSAMPLE_SEED + layer_idx) so every run — on any
+    machine — fits exactly the same subsample. Returns the input unchanged
+    when subsampling is disabled or the tensor is already small enough.
+    """
+    if SUBSAMPLE_N <= 0 or flat.size <= SUBSAMPLE_N:
+        return flat
+    rng = np.random.default_rng(SUBSAMPLE_SEED + layer_idx)
+    return rng.choice(flat, size=SUBSAMPLE_N, replace=False)
+
+
 def summarize_layerwise_fit(
     tensors: List[np.ndarray],
     include_student_t: bool = False,
 ) -> Dict[str, object]:
     """Fit Laplace / Gaussian (optionally Student-t) to each layer tensor.
+
+    Layers larger than ELA_SUBSAMPLE elements (default 500 000) are
+    deterministically subsampled before fitting; per-layer provenance is
+    recorded in the output (``n_total``, ``n_used``).
 
     Returns
     -------
@@ -148,15 +172,24 @@ def summarize_layerwise_fit(
                     laplace_pct, layers (list of per-layer dicts), and
                     optionally student_t_wins / student_t_pct.
     """
+    if SUBSAMPLE_N > 0:
+        logger.info(
+            "Layer fitting with deterministic subsampling: n=%d, seed=%d "
+            "(set ELA_SUBSAMPLE=0 for full-tensor fits)",
+            SUBSAMPLE_N, SUBSAMPLE_SEED,
+        )
     results = []
     for idx, weights in enumerate(tensors):
-        flat = weights.reshape(-1).astype(np.float64)
+        full = weights.reshape(-1).astype(np.float64)
+        flat = _maybe_subsample(full, idx)
         loc_l, scale_l = laplace.fit(flat)
         loc_n, scale_n = norm.fit(flat)
         ll_laplace  = float(np.sum(np.log(laplace.pdf(flat, loc_l, scale_l) + 1e-10)))
         ll_gaussian = float(np.sum(np.log(norm.pdf(flat, loc_n, scale_n) + 1e-10)))
         entry: Dict[str, object] = {
             "layer": idx,
+            "n_total": int(full.size),
+            "n_used": int(flat.size),
             "ll_laplace": ll_laplace,
             "ll_gaussian": ll_gaussian,
             "better_fit": "Laplace" if ll_laplace > ll_gaussian else "Gaussian",
@@ -164,8 +197,13 @@ def summarize_layerwise_fit(
         if include_student_t:
             from scipy.stats import t as student_t
             try:
-                df, loc_t, scale_t = student_t.fit(flat)
+                # Initial guesses (df=5, robust loc/scale) cut fit iterations
+                # substantially versus scipy's generic starting point.
+                df, loc_t, scale_t = student_t.fit(
+                    flat, 5.0, loc=float(np.median(flat)), scale=float(np.std(flat)),
+                )
                 ll_student = float(np.sum(np.log(student_t.pdf(flat, df, loc_t, scale_t) + 1e-10)))
+                entry["student_t_df"] = float(df)
             except Exception:
                 ll_student = -float("inf")
             entry["ll_student_t"] = ll_student
@@ -183,6 +221,8 @@ def summarize_layerwise_fit(
         "laplace_wins": laplace_wins,
         "gaussian_wins": gaussian_wins,
         "laplace_pct": 100.0 * laplace_wins / max(1, num),
+        "subsample_n": SUBSAMPLE_N,
+        "subsample_seed": SUBSAMPLE_SEED,
         "layers": results,
     }
     if include_student_t:
