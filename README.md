@@ -233,6 +233,10 @@ We have presented systematic empirical evidence that transformer attention weigh
 
 ## Reproducibility
 
+> **Regenerating everything on a fresh machine?** Follow **`RUNBOOK.md`** —
+> zero-footprint Windows setup (uv, in-repo venv and model cache), exact run
+> order, and troubleshooting.
+
 ### Prerequisites
 
 ```

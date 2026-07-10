@@ -195,7 +195,7 @@ def summarize_layerwise_fit(
             "better_fit": "Laplace" if ll_laplace > ll_gaussian else "Gaussian",
         }
         if include_student_t:
-            from scipy.stats import t as student_t
+            from scipy.stats import gennorm, t as student_t
             try:
                 # Initial guesses (df=5, robust loc/scale) cut fit iterations
                 # substantially versus scipy's generic starting point.
@@ -207,15 +207,29 @@ def summarize_layerwise_fit(
             except Exception:
                 ll_student = -float("inf")
             entry["ll_student_t"] = ll_student
-            # Classify by BIC, not raw log-likelihood. Student-t has a third
-            # free parameter (df) and nests the Gaussian as df -> inf, so raw
-            # LL is biased toward it: on synthetic Gaussian data the t "wins"
-            # with df in the hundreds. AIC/BIC penalise the extra parameter and
-            # recover the true generating family. n is large enough here that
-            # AIC and BIC almost always agree; both are reported.
+            # Generalized Gaussian (GGD): shape beta continuously interpolates
+            # Laplace (beta=1) and Gaussian (beta=2); exponential-type tails.
+            # The 3-param GGD-vs-Student-t duel discriminates exponential vs
+            # power-law tail regimes at equal model complexity.
+            try:
+                beta, loc_g2, scale_g2 = gennorm.fit(
+                    flat, 1.5, loc=float(np.median(flat)), scale=float(np.std(flat)),
+                )
+                ll_ggd = float(np.sum(np.log(gennorm.pdf(flat, beta, loc_g2, scale_g2) + 1e-10)))
+                entry["ggd_beta"] = float(beta)
+            except Exception:
+                ll_ggd = -float("inf")
+            entry["ll_ggd"] = ll_ggd
+            # Classify by BIC, not raw log-likelihood. Student-t and GGD have a
+            # third free parameter and nest/approach the Gaussian (df -> inf,
+            # beta = 2), so raw LL is biased toward them: on synthetic Gaussian
+            # data the t "wins" with df in the hundreds. AIC/BIC penalise the
+            # extra parameter and recover the true generating family. n is
+            # large enough here that AIC and BIC almost always agree.
             n = flat.size
-            k = {"Laplace": 2, "Gaussian": 2, "Student-t": 3}
-            ll = {"Laplace": ll_laplace, "Gaussian": ll_gaussian, "Student-t": ll_student}
+            k = {"Laplace": 2, "Gaussian": 2, "Student-t": 3, "GGD": 3}
+            ll = {"Laplace": ll_laplace, "Gaussian": ll_gaussian,
+                  "Student-t": ll_student, "GGD": ll_ggd}
             aic = {d: 2 * k[d] - 2 * ll[d] for d in ll}
             bic = {d: k[d] * np.log(n) - 2 * ll[d] for d in ll}
             entry["aic_winner"] = min(aic, key=aic.get)
@@ -241,6 +255,9 @@ def summarize_layerwise_fit(
         st_wins = sum(1 for r in results if r["better_fit"] == "Student-t")
         out["student_t_wins"] = st_wins
         out["student_t_pct"]  = 100.0 * st_wins / max(1, num)
+        ggd_wins = sum(1 for r in results if r["better_fit"] == "GGD")
+        out["ggd_wins"] = ggd_wins
+        out["ggd_pct"]  = 100.0 * ggd_wins / max(1, num)
     return out
 
 
