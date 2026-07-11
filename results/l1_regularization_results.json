@@ -1,0 +1,313 @@
+{
+  "control": {
+    "condition": "no_l1",
+    "use_l1": false,
+    "before": {
+      "num_layers": 8,
+      "laplace_wins": 1,
+      "gaussian_wins": 7,
+      "laplace_pct": 12.5,
+      "subsample_n": 500000,
+      "subsample_seed": 12345,
+      "layers": [
+        {
+          "layer": 0,
+          "n_total": 2359296,
+          "n_used": 500000,
+          "ll_laplace": 942992.3006968293,
+          "ll_gaussian": 946625.5223620485,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 1,
+          "n_total": 2359296,
+          "n_used": 500000,
+          "ll_laplace": 947752.633203035,
+          "ll_gaussian": 951831.6427361455,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 2,
+          "n_total": 2359296,
+          "n_used": 500000,
+          "ll_laplace": 926020.1848404432,
+          "ll_gaussian": 918765.9311465566,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 3,
+          "n_total": 2359296,
+          "n_used": 500000,
+          "ll_laplace": 929272.7979944822,
+          "ll_gaussian": 937650.8855571554,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 4,
+          "n_total": 2359296,
+          "n_used": 500000,
+          "ll_laplace": 910619.127994955,
+          "ll_gaussian": 925330.9053119186,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 5,
+          "n_total": 2359296,
+          "n_used": 500000,
+          "ll_laplace": 898700.9176056761,
+          "ll_gaussian": 912632.0642828931,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 6,
+          "n_total": 2359296,
+          "n_used": 500000,
+          "ll_laplace": 906798.762971063,
+          "ll_gaussian": 920916.3513531176,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 7,
+          "n_total": 2359296,
+          "n_used": 500000,
+          "ll_laplace": 907314.4406859691,
+          "ll_gaussian": 921372.5007516292,
+          "better_fit": "Gaussian"
+        }
+      ]
+    },
+    "after": {
+      "num_layers": 8,
+      "laplace_wins": 1,
+      "gaussian_wins": 7,
+      "laplace_pct": 12.5,
+      "subsample_n": 500000,
+      "subsample_seed": 12345,
+      "layers": [
+        {
+          "layer": 0,
+          "n_total": 2359296,
+          "n_used": 500000,
+          "ll_laplace": 943024.3099704322,
+          "ll_gaussian": 946656.8323879469,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 1,
+          "n_total": 2359296,
+          "n_used": 500000,
+          "ll_laplace": 947764.1947632451,
+          "ll_gaussian": 951853.557306229,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 2,
+          "n_total": 2359296,
+          "n_used": 500000,
+          "ll_laplace": 926055.565784343,
+          "ll_gaussian": 918808.4504008279,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 3,
+          "n_total": 2359296,
+          "n_used": 500000,
+          "ll_laplace": 929311.0925337423,
+          "ll_gaussian": 937688.3870329381,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 4,
+          "n_total": 2359296,
+          "n_used": 500000,
+          "ll_laplace": 910644.3262554016,
+          "ll_gaussian": 925358.9425278038,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 5,
+          "n_total": 2359296,
+          "n_used": 500000,
+          "ll_laplace": 898741.8960137458,
+          "ll_gaussian": 912676.723539839,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 6,
+          "n_total": 2359296,
+          "n_used": 500000,
+          "ll_laplace": 906844.1229116811,
+          "ll_gaussian": 920963.8064724951,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 7,
+          "n_total": 2359296,
+          "n_used": 500000,
+          "ll_laplace": 907362.0081962689,
+          "ll_gaussian": 921420.5337857957,
+          "better_fit": "Gaussian"
+        }
+      ]
+    },
+    "final_ce_loss": 10.414469718933105,
+    "seed": 42,
+    "l1_coeff": 0.0
+  },
+  "treatment": {
+    "condition": "l1_penalty",
+    "use_l1": true,
+    "before": {
+      "num_layers": 8,
+      "laplace_wins": 1,
+      "gaussian_wins": 7,
+      "laplace_pct": 12.5,
+      "subsample_n": 500000,
+      "subsample_seed": 12345,
+      "layers": [
+        {
+          "layer": 0,
+          "n_total": 2359296,
+          "n_used": 500000,
+          "ll_laplace": 942992.3006968293,
+          "ll_gaussian": 946625.5223620485,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 1,
+          "n_total": 2359296,
+          "n_used": 500000,
+          "ll_laplace": 947752.633203035,
+          "ll_gaussian": 951831.6427361455,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 2,
+          "n_total": 2359296,
+          "n_used": 500000,
+          "ll_laplace": 926020.1848404432,
+          "ll_gaussian": 918765.9311465566,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 3,
+          "n_total": 2359296,
+          "n_used": 500000,
+          "ll_laplace": 929272.7979944822,
+          "ll_gaussian": 937650.8855571554,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 4,
+          "n_total": 2359296,
+          "n_used": 500000,
+          "ll_laplace": 910619.127994955,
+          "ll_gaussian": 925330.9053119186,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 5,
+          "n_total": 2359296,
+          "n_used": 500000,
+          "ll_laplace": 898700.9176056761,
+          "ll_gaussian": 912632.0642828931,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 6,
+          "n_total": 2359296,
+          "n_used": 500000,
+          "ll_laplace": 906798.762971063,
+          "ll_gaussian": 920916.3513531176,
+          "better_fit": "Gaussian"
+        },
+        {
+          "layer": 7,
+          "n_total": 2359296,
+          "n_used": 500000,
+          "ll_laplace": 907314.4406859691,
+          "ll_gaussian": 921372.5007516292,
+          "better_fit": "Gaussian"
+        }
+      ]
+    },
+    "after": {
+      "num_layers": 8,
+      "laplace_wins": 8,
+      "gaussian_wins": 0,
+      "laplace_pct": 100.0,
+      "subsample_n": 500000,
+      "subsample_seed": 12345,
+      "layers": [
+        {
+          "layer": 0,
+          "n_total": 2359296,
+          "n_used": 500000,
+          "ll_laplace": 1037238.0798295661,
+          "ll_gaussian": 1004500.5417896656,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 1,
+          "n_total": 2359296,
+          "n_used": 500000,
+          "ll_laplace": 1037356.7043216749,
+          "ll_gaussian": 1007549.2310753046,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 2,
+          "n_total": 2359296,
+          "n_used": 500000,
+          "ll_laplace": 1014037.7214306608,
+          "ll_gaussian": 973946.663886917,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 3,
+          "n_total": 2359296,
+          "n_used": 500000,
+          "ll_laplace": 1014547.8961892182,
+          "ll_gaussian": 992360.9752620616,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 4,
+          "n_total": 2359296,
+          "n_used": 500000,
+          "ll_laplace": 984870.7480439176,
+          "ll_gaussian": 972570.3041389247,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 5,
+          "n_total": 2359296,
+          "n_used": 500000,
+          "ll_laplace": 972579.1579817495,
+          "ll_gaussian": 960245.245375106,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 6,
+          "n_total": 2359296,
+          "n_used": 500000,
+          "ll_laplace": 985590.663250481,
+          "ll_gaussian": 972241.4985993129,
+          "better_fit": "Laplace"
+        },
+        {
+          "layer": 7,
+          "n_total": 2359296,
+          "n_used": 500000,
+          "ll_laplace": 996154.5658054083,
+          "ll_gaussian": 980114.2353108401,
+          "better_fit": "Laplace"
+        }
+      ]
+    },
+    "final_ce_loss": 10.39208984375,
+    "seed": 42,
+    "l1_coeff": 0.0001
+  },
+  "delta_laplace_pct": 87.5
+}

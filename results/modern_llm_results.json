@@ -1,0 +1,10 @@
+{
+  "results": [],
+  "failures": [
+    {
+      "model_id": "meta-llama/Llama-3.2-1B",
+      "error": "You are trying to access a gated repo.\nMake sure to have access to it at https://huggingface.co/meta-llama/Llama-3.2-1B.\n403 Client Error. (Request ID: Root=1-6a51902a-7259428322156d703dba0129;22a1be93-e825-4740-89c2-d0cfccbb20f3)\n\nCannot access gated repo for url https://huggingface.co/meta-llama/Llama-3.2-1B/resolve/main/config.json.\nAccess to model meta-llama/Llama-3.2-1B is restricted and you are not in the authorized list. Visit https://huggingface.co/meta-llama/Llama-3.2-1B to ask for access."
+    }
+  ],
+  "model_count": 0
+}

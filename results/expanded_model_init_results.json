@@ -4,151 +4,151 @@
       "model_id": "gpt2",
       "architecture": "gpt2",
       "num_params": 124439808,
-      "weight_mean": -4.6378695598733047e-07,
-      "weight_std": 0.02000086898497304,
-      "weight_range": 0.21187717467546463,
-      "weight_kurtosis": -2.4885324606760406e-05,
-      "weight_skewness": 0.0002326897242149812
+      "weight_mean": -5.9576754019495694e-06,
+      "weight_std": 0.01744302588214918,
+      "weight_range": 0.21854863315820694,
+      "weight_kurtosis": 0.8930447393203678,
+      "weight_skewness": -0.0012949683046502038
     },
     {
       "model_id": "gpt2-medium",
       "architecture": "gpt2",
       "num_params": 354823168,
-      "weight_mean": 2.246936611283307e-06,
-      "weight_std": 0.02000157482793383,
-      "weight_range": 0.2149321213364601,
-      "weight_kurtosis": -0.0007177216923524021,
-      "weight_skewness": -0.00012199528604133977
+      "weight_mean": -1.7369899994503e-06,
+      "weight_std": 0.017379728087611745,
+      "weight_range": 0.2254725769162178,
+      "weight_kurtosis": 0.9443047946480618,
+      "weight_skewness": -0.0001881179192992609
     },
     {
       "model_id": "gpt2-large",
       "architecture": "gpt2",
       "num_params": 774030080,
-      "weight_mean": 1.0030081061548282e-06,
-      "weight_std": 0.020000022875503707,
-      "weight_range": 0.22678318619728088,
-      "weight_kurtosis": -0.00017654755722196214,
-      "weight_skewness": -0.00027778233134203976
+      "weight_mean": -9.661215431954254e-08,
+      "weight_std": 0.017358076702994364,
+      "weight_range": 0.22068704664707184,
+      "weight_kurtosis": 0.9643150277627219,
+      "weight_skewness": -0.0003233569437455194
     },
     {
       "model_id": "bert-base-uncased",
       "architecture": "bert",
       "num_params": 109482240,
-      "weight_mean": 2.023551797031414e-06,
-      "weight_std": 0.01999561934077718,
-      "weight_range": 0.21811897307634354,
-      "weight_kurtosis": -0.0002661532638508213,
-      "weight_skewness": -0.0005453786296378734
+      "weight_mean": -3.6791266410123307e-06,
+      "weight_std": 0.01999789749775654,
+      "weight_range": 0.20975831896066666,
+      "weight_kurtosis": 0.0007238881836397759,
+      "weight_skewness": -0.00015795736710888563
     },
     {
       "model_id": "bert-large-uncased",
       "architecture": "bert",
       "num_params": 335141888,
-      "weight_mean": -1.8409958961969843e-06,
-      "weight_std": 0.019998746616049688,
-      "weight_range": 0.2164224088191986,
-      "weight_kurtosis": -0.00046220151000975207,
-      "weight_skewness": 0.00011945701228743446
+      "weight_mean": 2.2928640552386725e-06,
+      "weight_std": 0.019999494356122426,
+      "weight_range": 0.2261563017964363,
+      "weight_kurtosis": 7.158113889937923e-05,
+      "weight_skewness": -6.854998439652036e-05
     },
     {
       "model_id": "distilbert-base-uncased",
       "architecture": "distilbert",
       "num_params": 66362880,
-      "weight_mean": -5.709260956087601e-06,
-      "weight_std": 0.0199989794275494,
-      "weight_range": 0.20567107200622559,
-      "weight_kurtosis": -0.000671047943475056,
-      "weight_skewness": -0.0009337310310319597
+      "weight_mean": 2.3023997726580245e-06,
+      "weight_std": 0.02000356006912074,
+      "weight_range": 0.21134766936302185,
+      "weight_kurtosis": 0.0008332478795205489,
+      "weight_skewness": 0.0005256340389924622
     },
     {
       "model_id": "roberta-base",
       "architecture": "roberta",
       "num_params": 124645632,
-      "weight_mean": -4.890279474003304e-06,
-      "weight_std": 0.01999470145054731,
-      "weight_range": 0.22456761449575424,
-      "weight_kurtosis": -0.002443328647610876,
-      "weight_skewness": 0.000612890507719551
+      "weight_mean": -1.311483038057888e-05,
+      "weight_std": 0.019998045421366725,
+      "weight_range": 0.2145843729376793,
+      "weight_kurtosis": 0.00013553766757246066,
+      "weight_skewness": 0.0005605369887101963
     },
     {
       "model_id": "roberta-large",
       "architecture": "roberta",
       "num_params": 355359744,
-      "weight_mean": -1.0964286906835392e-06,
-      "weight_std": 0.01999934488667471,
-      "weight_range": 0.21957775205373764,
-      "weight_kurtosis": -0.0011288106190345815,
-      "weight_skewness": 0.0001264001858618175
+      "weight_mean": -1.1092411301673902e-06,
+      "weight_std": 0.019999509983371785,
+      "weight_range": 0.2282840758562088,
+      "weight_kurtosis": 0.00023345575861943857,
+      "weight_skewness": 0.0004140018012039532
     },
     {
       "model_id": "distilroberta-base",
       "architecture": "roberta",
       "num_params": 82118400,
-      "weight_mean": 8.751305180073496e-06,
-      "weight_std": 0.01999877363878045,
-      "weight_range": 0.20674880594015121,
-      "weight_kurtosis": -0.00045937747711422006,
-      "weight_skewness": -8.081547078412469e-05
+      "weight_mean": -1.518535846071225e-06,
+      "weight_std": 0.02000078909411606,
+      "weight_range": 0.2248823270201683,
+      "weight_kurtosis": -0.0009994602273728503,
+      "weight_skewness": 0.00011484727191285228
     },
     {
       "model_id": "albert-base-v2",
       "architecture": "albert",
       "num_params": 11683584,
-      "weight_mean": 2.9439816249294986e-05,
-      "weight_std": 0.01999524966926765,
-      "weight_range": 0.20207273960113525,
-      "weight_kurtosis": 0.0029295520513863416,
-      "weight_skewness": 0.00254606098310232
+      "weight_mean": 2.80934822776321e-05,
+      "weight_std": 0.019996211617282034,
+      "weight_range": 0.19331055879592896,
+      "weight_kurtosis": -0.0005667025184008523,
+      "weight_skewness": 0.00026111797966027933
     },
     {
       "model_id": "google/electra-small-discriminator",
       "architecture": "electra",
       "num_params": 13483008,
-      "weight_mean": -7.467224281727056e-06,
-      "weight_std": 0.020007499416990385,
-      "weight_range": 0.21798553317785263,
-      "weight_kurtosis": 0.0003586009448173222,
-      "weight_skewness": -0.00013247926737512398
+      "weight_mean": 1.79994404021713e-05,
+      "weight_std": 0.019986735956244155,
+      "weight_range": 0.2120361551642418,
+      "weight_kurtosis": -0.003017153445656451,
+      "weight_skewness": -5.3056307430399505e-05
     },
     {
       "model_id": "facebook/bart-base",
       "architecture": "bart",
       "num_params": 139420416,
-      "weight_mean": -6.303204252590098e-07,
-      "weight_std": 0.020001525397059572,
-      "weight_range": 0.21506106108427048,
-      "weight_kurtosis": 0.0017598540013925579,
-      "weight_skewness": 0.0006851001847890307
+      "weight_mean": 1.0853416898404173e-06,
+      "weight_std": 0.020003727017682688,
+      "weight_range": 0.2233186736702919,
+      "weight_kurtosis": 0.0004638903320239862,
+      "weight_skewness": 0.00031575864125249503
     },
     {
       "model_id": "t5-small",
       "architecture": "t5",
       "num_params": 60506624,
-      "weight_mean": -6.445987215095829e-06,
-      "weight_std": 0.03836580101864319,
-      "weight_range": 0.48676827549934387,
-      "weight_kurtosis": 0.957931248110619,
-      "weight_skewness": -0.0002805536506617119
+      "weight_mean": 3.970032466037425e-06,
+      "weight_std": 0.038367207182164215,
+      "weight_range": 0.45537711679935455,
+      "weight_kurtosis": 0.9601504922454467,
+      "weight_skewness": 0.0008260133948420264
     },
     {
       "model_id": "t5-base",
       "architecture": "t5",
       "num_params": 222903552,
-      "weight_mean": 6.791779196453116e-06,
-      "weight_std": 0.03132914018761724,
-      "weight_range": 0.40546078979969025,
-      "weight_kurtosis": 0.9578704278986767,
-      "weight_skewness": 0.00019712518316897964
+      "weight_mean": 7.625949353071197e-07,
+      "weight_std": 0.03133017177239198,
+      "weight_range": 0.4081396460533142,
+      "weight_kurtosis": 0.9593236054252916,
+      "weight_skewness": 0.00018886123095625224
     },
     {
       "model_id": "google/mt5-small",
       "architecture": "mt5",
       "num_params": 172119424,
-      "weight_mean": -1.6330162410944788e-05,
-      "weight_std": 0.04043762684823917,
-      "weight_range": 0.5255478024482727,
-      "weight_kurtosis": 1.0402894426224218,
-      "weight_skewness": 0.000811980809418207
+      "weight_mean": -1.0849589884464894e-05,
+      "weight_std": 0.040433083751014905,
+      "weight_range": 0.5067608058452606,
+      "weight_kurtosis": 1.0416114876368665,
+      "weight_skewness": 1.3003926944009308e-05
     }
   ],
   "failures": []

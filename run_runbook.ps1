@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     run_runbook.ps1 — implementa fedelmente RUNBOOK.md (rerun completo 4-way BIC).
     NON è run_all.ps1: qui l'ordine, i reset e i backup JSON seguono il runbook.
