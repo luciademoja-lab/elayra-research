@@ -115,7 +115,7 @@ def collect_mlp_tensors(model, max_layers: int):
         if not m:
             continue
         groups.setdefault(int(m.group(2)), []).append(
-            param.detach().cpu().numpy().reshape(-1)
+            param.detach().cpu().float().numpy().reshape(-1)  # .float(): bf16-safe
         )
     tensors = []
     for idx in sorted(groups)[:max_layers]:
@@ -141,7 +141,7 @@ def collect_embedding_tensors(model):
         if ptr in seen_ptrs:
             continue
         seen_ptrs.add(ptr)
-        tensors.append(param.detach().cpu().numpy().reshape(-1).astype(np.float64))
+        tensors.append(param.detach().cpu().float().numpy().reshape(-1).astype(np.float64))  # .float(): bf16-safe
         labels.append(name)
     return tensors, labels
 

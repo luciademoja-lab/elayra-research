@@ -114,8 +114,12 @@ def collect_attention_tensors(
         if not match:
             continue
         layer_idx = int(match.group(2))
+        # .float() before .numpy(): modern LLMs (LLaMA-3.2, many 4-bit/bf16
+        # checkpoints) ship weights in bfloat16, which numpy cannot convert
+        # directly. Casting to float32 first is a no-op for fp32 models and
+        # avoids a hard crash on bf16 ones. Distribution shape is unaffected.
         layer_groups.setdefault(layer_idx, []).append(
-            param.detach().cpu().numpy().reshape(-1)
+            param.detach().cpu().float().numpy().reshape(-1)
         )
 
     if not layer_groups:

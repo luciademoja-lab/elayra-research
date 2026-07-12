@@ -11,6 +11,7 @@ META_FILE= $(RESULT)/experiment_meta.json
 .PHONY: help install install-dev test pipeline layerwise \
         control control-short control-long control-shuffled \
         init-analysis bootstrap l1 checkpoint heads modern-llms mlp \
+        mlp-embedding layerwise-modern extend \
         results all clean clean-results
 
 help:
@@ -69,6 +70,15 @@ modern-llms:
 
 mlp:
 	$(PY) $(SCRIPT)/mlp_analysis.py
+
+mlp-embedding:
+	$(PY) $(SCRIPT)/mlp_embedding_analysis.py
+
+layerwise-modern:
+	$(PY) $(SCRIPT)/run_layerwise_modern.py
+
+extend: mlp-embedding heads control-short
+	@echo "Incremental extension run done (MLP/embedding + fix confirmation)."
 
 results: pipeline layerwise controls init-analysis bootstrap l1 checkpoint heads modern-llms mlp
 	@echo "All results regenerated."

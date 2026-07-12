@@ -10,6 +10,65 @@
 > README's Results sections are stale and will be rewritten from this run's
 > output — do NOT trust or preserve them.
 
+## THIS ROUND — incremental, one command
+
+> The venv from the previous run **already exists** — do NOT recreate it, and do
+> NOT run the full pipeline (§4). This round only: confirm two code fixes and
+> extend the distribution fit to MLP + embedding weights.
+
+From the repo root, in PowerShell:
+
+```powershell
+.\run_extend.ps1            # runs the three steps, transcript -> results\extend_run.log
+# .\run_extend.ps1 -Quick   # skip control_short (the GPU training step)
+```
+
+`run_extend.ps1` reuses the existing venv (`.venv\Scripts\python.exe`), points
+`HF_HOME` at the in-repo `hf_cache` (no re-download), runs the scripts below,
+and prints a pass/fail summary. (Unix/`make` equivalent: `make extend`.)
+
+| Script | Output | Success looks like |
+|---|---|---|
+| `mlp_embedding_analysis.py` | `results\mlp_embedding_4way.json` | compact per-model table: emb% / attn% / mlp%, β mlp, β emb |
+| `head_level_analysis.py` | `results\head_level_results.json` | BART no longer raises `'numpy.ndarray' … detach` |
+| `control_short.py` | `results\extended_control_results.json` | writes >1 model, or exits non-zero **loudly** (no silent stale file) |
+
+### Modern LLMs (LLaMA-3.2-1B + Phi-2)
+
+The paper should also cover modern decoder-only models. They were left out of the
+first run for two *different* reasons, neither intrinsic to the analysis:
+
+- **Phi-2** was excluded by the 4 GB VRAM budget — but the distribution fits run
+  on **CPU**, so VRAM is irrelevant here; it only needs system RAM. No token, no
+  special setup: it just runs.
+- **LLaMA-3.2-1B** is a **gated** HuggingFace repo. Before it will load: log in at
+  huggingface.co, open `https://huggingface.co/meta-llama/Llama-3.2-1B`, click
+  "Agree and access", wait for approval, then set the token in the shell:
+  `$env:HF_TOKEN = "hf_..."`.
+
+Run (merges both into `results\layerwise_model_comparison.json`, preserving the
+existing 15 entries):
+
+```powershell
+.\run_extend.ps1 -WithModern           # append the modern step to the round
+# or directly:
+python scripts\run_layerwise_modern.py            # both
+python scripts\run_layerwise_modern.py --no-random  # skip random-init if RAM is tight
+```
+
+If LLaMA is still blocked, the script says so clearly and continues with Phi-2 —
+Phi-2 alone already adds a modern model to the paper. (Note: these are bf16
+checkpoints; the analysis casts to float32 before fitting, so no bf16/numpy crash.)
+
+**If you are the Cowork agent running this:** when it finishes, paste the summary
+table and the `mlp_embedding` console table back to Lucia, then commit with
+`git add results\ run_extend.ps1 ; git commit -m "results: MLP/embedding 4-way + fix confirmation"`.
+Do nothing else from §4 this round. The two fixes were verified by reading only
+on Lucia's Mac; this run is their first real execution — if `head_level` or
+`control_short` still fail, capture the log and report it, don't paper over it.
+
+---
+
 ## 0. Ground rules
 
 - **Touch nothing outside the repo folder.** The setup below keeps the venv,
