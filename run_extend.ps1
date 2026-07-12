@@ -1,9 +1,9 @@
 <#
-run_extend.ps1 — one-command incremental run for THIS round.
+run_extend.ps1 - one-command incremental run for THIS round.
 
 Confirms the two code fixes (head-level BART, control_short) and runs the new
 MLP + embedding 4-way distribution analysis. Assumes the in-repo venv from the
-previous run already exists (.venv\Scripts\python.exe) — it does NOT create or
+previous run already exists (.venv\Scripts\python.exe) - it does NOT create or
 modify it, and does NOT run the full pipeline.
 
 Usage (from the repo root, PowerShell):
@@ -66,7 +66,7 @@ Write-Host "Full transcript: $log"
 
 $failed = @($summary | Where-Object { $_.exit -ne 0 }).Count
 if ($failed -gt 0) {
-    Write-Host "$failed step(s) failed — read $log, do not assume success." -ForegroundColor Yellow
+    Write-Host "$failed step(s) failed - read $log, do not assume success." -ForegroundColor Yellow
     exit 1
 }
 Write-Host "All steps completed. Outputs saved in results\." -ForegroundColor Green
