@@ -389,18 +389,23 @@ def collect_head_tensors(model: torch.nn.Module) -> Dict[int, List[np.ndarray]]:
         if not match:
             continue
         layer_idx = int(match.group(2))
-        Wq = param.detach().cpu().numpy()          # [out, in]
-        Wk_name = name.replace("query.weight", "key.weight")
-        Wv_name = name.replace("query.weight", "value.weight")
+        # Locate matching k/v projections. Handle both BERT-style
+        # (query/key/value) and BART/LLaMA-style (q_proj/k_proj/v_proj) naming.
+        Wk_name = name.replace("q_proj", "k_proj").replace("query", "key")
+        Wv_name = name.replace("q_proj", "v_proj").replace("query", "value")
 
-        # locate matching k/v by param name lookup inside the module
         sd = model.state_dict()
         Wk = sd.get(Wk_name)
         Wv = sd.get(Wv_name)
         if Wk is None or Wv is None:
             continue
 
-        Wq, Wk, Wv = Wq.detach().cpu().numpy(), Wk.detach().cpu().numpy(), Wv.detach().cpu().numpy()
+        # Convert to numpy exactly once. (Previously Wq was converted here
+        # and then .detach() was called again on the numpy array -> crash on
+        # BART: "'numpy.ndarray' object has no attribute 'detach'".)
+        Wq = param.detach().cpu().numpy()          # [out, in]
+        Wk = Wk.detach().cpu().numpy()
+        Wv = Wv.detach().cpu().numpy()
         for h in range(n_heads):
             start, end = h * head_dim, (h + 1) * head_dim
             head_vec = np.concatenate([

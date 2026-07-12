@@ -41,8 +41,8 @@ class ControlShortConfig:
             ("gpt2-medium", "causal"),
             ("bert-base-uncased", "masked"),
             ("roberta-base", "masked"),
-            ("facebook/bart-base", "causal"),
-            ("t5-small", "causal"),
+            ("facebook/bart-base", "seq2seq"),
+            ("t5-small", "seq2seq"),
         ]
     )
     num_seeds: int = 3

@@ -25,7 +25,12 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 import numpy as np
 import torch
 from tqdm import tqdm
-from transformers import AutoModelForCausalLM, AutoModelForMaskedLM, AutoTokenizer
+from transformers import (
+    AutoModelForCausalLM,
+    AutoModelForMaskedLM,
+    AutoModelForSeq2SeqLM,
+    AutoTokenizer,
+)
 
 from ela.analysis import (
     MAX_LAYERS_PRIMARY,
@@ -47,8 +52,11 @@ def _run_seed(model_id: str, model_type: str, seed: int) -> dict:
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     tokenizer = AutoTokenizer.from_pretrained(model_id)
 
-    ctor = (AutoModelForCausalLM if model_type == "causal"
-            else AutoModelForMaskedLM)
+    ctor = {
+        "causal": AutoModelForCausalLM,
+        "masked": AutoModelForMaskedLM,
+        "seq2seq": AutoModelForSeq2SeqLM,
+    }[model_type]
     model = ctor.from_pretrained(model_id).to(device)
     model.train()
     optim = torch.optim.AdamW(model.parameters(), lr=cfg.lr)
@@ -151,12 +159,15 @@ def main() -> None:
             json.dump({"results": all_out}, fh, indent=2)
         log.info("\nSaved -> %s", out_path)
     else:
-        if os.path.exists(out_path):
-            log.warning("No results produced; keeping existing file %s", out_path)
-        else:
-            with open(out_path, "w", encoding="utf-8") as fh:
-                json.dump({"results": []}, fh, indent=2)
-            log.info("\nSaved empty results to %s", out_path)
+        # LOUD failure: previously this branch silently preserved a stale
+        # results file, so a run in which every model failed looked like a
+        # success and left old (e.g. gpt2-only) data in place. Overwrite with
+        # an explicit failure marker and exit non-zero so the run is visible.
+        log.error("ALL MODELS FAILED — no results produced. See traceback(s) above.")
+        with open(out_path, "w", encoding="utf-8") as fh:
+            json.dump({"results": [], "status": "all_models_failed"}, fh, indent=2)
+        log.error("Wrote failure marker -> %s", out_path)
+        sys.exit(1)
 
 
 if __name__ == "__main__":
